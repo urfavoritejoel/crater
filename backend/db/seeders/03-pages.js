@@ -23,12 +23,12 @@ module.exports = {
                 headerImg: "image.url",
             },
             {
-                userId: 1,
+                userId: 2,
                 defaultThemeId: 1,
                 headerImg: "images.url",
             },
             {
-                userId: 2,
+                userId: 3,
                 defaultThemeId: 1,
                 headerImg: "images.url",
             },

@@ -31,6 +31,13 @@ module.exports = {
         profileImg: '',
         descriptor: 'demo2',
       },
+      {
+        email: 'demo3@user.io',
+        username: 'Demo-lition3',
+        hashedPassword: bcrypt.hashSync('password'),
+        profileImg: '',
+        descriptor: 'demo3',
+      },
     ], {})
   },
 

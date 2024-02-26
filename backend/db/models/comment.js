@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.User, { foreignKey: 'userId' });
       this.belongsTo(models.Post, { foreignKey: 'postId' });
-      this.hasMany(models.Like, { foreignKey: 'commentId' });
+      this.hasMany(models.Like, { foreignKey: 'commentId', onDelete: "CASCADE" });
     }
   }
   Comment.init({

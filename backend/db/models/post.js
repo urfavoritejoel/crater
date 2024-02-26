@@ -14,9 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.User, { foreignKey: 'userId' });
       this.belongsTo(models.Theme, { foreignKey: 'themeId' });
       this.belongsTo(models.Page, { foreignKey: 'pageId' });
-      this.hasMany(models.Song, { foreignKey: 'postId' });
-      this.hasMany(models.Comment, { foreignKey: 'postId' });
-      this.hasMany(models.Like, { foreignKey: 'postId' });
+      this.hasOne(models.Song, { foreignKey: 'postId', onDelete: "CASCADE" });
+      this.hasMany(models.Comment, { foreignKey: 'postId', onDelete: "CASCADE" });
+      this.hasMany(models.Like, { foreignKey: 'postId', onDelete: "CASCADE" });
     }
   }
   Post.init({
@@ -45,6 +45,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    postType: {
       type: DataTypes.STRING,
       allowNull: false
     },

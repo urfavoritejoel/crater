@@ -20,7 +20,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: 'Users',
-          key: 'id'
+          key: 'id',
         },
         allowNull: false,
       },
@@ -38,6 +38,10 @@ module.exports = {
           model: 'Pages',
           key: 'id'
         },
+        allowNull: false,
+      },
+      postType: {
+        type: Sequelize.STRING,
         allowNull: false,
       },
       title: {

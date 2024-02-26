@@ -11,12 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.hasMany(models.Post, { foreignKey: 'userId' });
-      this.hasMany(models.Theme, { foreignKey: 'userId' });
-      this.hasMany(models.Page, { foreignKey: 'userId' });
-      this.hasMany(models.Song, { foreignKey: 'userId' });
-      this.hasMany(models.Comment, { foreignKey: 'userId' });
-      this.hasMany(models.Like, { foreignKey: 'userId' });
+      this.hasMany(models.Post, { foreignKey: 'userId', onDelete: "CASCADE", onDelete: "CASCADE" });
+      this.hasMany(models.Theme, { foreignKey: 'userId', onDelete: "CASCADE" });
+      this.hasMany(models.Page, { foreignKey: 'userId', onDelete: "CASCADE" });
+      this.hasMany(models.Song, { foreignKey: 'userId', onDelete: "CASCADE" });
+      this.hasMany(models.Comment, { foreignKey: 'userId', onDelete: "CASCADE" });
+      this.hasMany(models.Like, { foreignKey: 'userId', onDelete: "CASCADE" });
     }
   }
   User.init({

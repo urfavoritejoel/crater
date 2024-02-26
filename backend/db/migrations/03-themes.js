@@ -40,7 +40,7 @@ module.exports = {
       borderstyle: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 'Rounded'
+        defaultValue: 'rounded'
       },
       createdAt: {
         allowNull: false,

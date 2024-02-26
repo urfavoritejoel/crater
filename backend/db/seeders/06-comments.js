@@ -1,11 +1,11 @@
 'use strict';
 
-const { Theme, Sequelize } = require('../models');
+const { Comment, Sequelize } = require('../models');
 const bcrypt = require('bcryptjs');
 
 
 let options = {};
-options.tableName = 'Themes';
+options.tableName = 'Comments';
 
 if (process.env.NODE_ENV === 'production') {
     options.schema = process.env.SCHEMA;
@@ -15,22 +15,22 @@ module.exports = {
 
 
     up: async (queryInterface, Sequelize) => {
-        options.tableName = "Themes";
+        options.tableName = "Comments";
         return queryInterface.bulkInsert(options, [
             {
                 userId: 1,
-                title: "title",
-                borderstyle: "rounded",
+                postId: 2,
+                body: "body",
             },
             {
                 userId: 2,
-                title: "title2",
-                borderstyle: "rounded",
+                postId: 3,
+                body: "body2",
             },
             {
                 userId: 3,
-                title: "title3",
-                borderstyle: "rounded",
+                postId: 1,
+                body: "body3",
             },
         ], {})
     },
@@ -38,7 +38,7 @@ module.exports = {
 
 
     down: async (queryInterface, Sequelize) => {
-        options.tableName = "Themes";
+        options.tableName = "Comments";
         const Op = Sequelize.Op;
         return queryInterface.bulkDelete(options, {
             userId: { [Op.in]: [] }

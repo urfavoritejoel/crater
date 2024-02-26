@@ -47,9 +47,6 @@ router.get('/current', requireAuth, async (req, res) => {
         },
         include: [
             {
-                model: User
-            },
-            {
                 model: Theme
             }
         ]
@@ -77,9 +74,6 @@ router.get('/:userId', async (req, res) => {
             userId: userId
         },
         include: [
-            {
-                model: User
-            },
             {
                 model: Theme
             }
@@ -118,6 +112,8 @@ router.post('/', requireAuth, async (req, res) => {
 //Auth required: true, must be owner of page
 router.put('/:pageId', requireAuth, async (req, res) => {
     const { pageId } = req.params;
+    let { defaultThemeId, headerImg } = req.body;
+    defaultThemeId = parseInt(defaultThemeId);
     const page = await Page.findByPk(pageId);
     if (!page) {
         res.status(404);
@@ -131,7 +127,10 @@ router.put('/:pageId', requireAuth, async (req, res) => {
             message: "Forbidden"
         });
     };
-    const updatedPage = await page.update(req.body);
+    const updatedPage = await page.update({
+        defaultThemeId,
+        headerImg
+    });
 
     return res.json(updatedPage);
 })

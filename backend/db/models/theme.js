@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
     borderstyle: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 'Rounded'
+      defaultValue: 'rounded'
     },
   }, {
     sequelize,
