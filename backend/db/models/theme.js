@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.User, { foreignKey: 'userId' });
       this.hasMany(models.Post, { foreignKey: 'themeId' });
-      this.hasMany(models.Page, { foreignKey: 'DefaultThemeId' });
+      this.hasMany(models.Page, { foreignKey: 'DefaultThemeId', onDelete: 'cascade', hooks: true });
     }
   }
   Theme.init({

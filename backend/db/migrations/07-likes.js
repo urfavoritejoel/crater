@@ -30,7 +30,13 @@ module.exports = {
           model: 'Posts',
           key: 'id'
         },
-        allowNull: false,
+      },
+      commentId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Comments',
+          key: 'id'
+        },
       },
       createdAt: {
         allowNull: false,

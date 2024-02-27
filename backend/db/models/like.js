@@ -30,7 +30,13 @@ module.exports = (sequelize, DataTypes) => {
         model: 'Posts',
         key: 'id'
       },
-      allowNull: false
+    },
+    commentId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Comments',
+        key: 'id'
+      },
     },
   }, {
     sequelize,

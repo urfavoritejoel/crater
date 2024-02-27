@@ -14,9 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.User, { foreignKey: 'userId' });
       this.belongsTo(models.Theme, { foreignKey: 'themeId' });
       this.belongsTo(models.Page, { foreignKey: 'pageId' });
-      this.hasOne(models.Song, { foreignKey: 'postId', onDelete: "CASCADE" });
-      this.hasMany(models.Comment, { foreignKey: 'postId', onDelete: "CASCADE" });
-      this.hasMany(models.Like, { foreignKey: 'postId', onDelete: "CASCADE" });
+      this.hasOne(models.Song, { foreignKey: 'postId', onDelete: 'cascade', hooks: true });
+      this.hasMany(models.Comment, { foreignKey: 'postId', onDelete: 'cascade', hooks: true });
+      this.hasMany(models.Like, { foreignKey: 'postId', onDelete: 'cascade', hooks: true });
     }
   }
   Post.init({

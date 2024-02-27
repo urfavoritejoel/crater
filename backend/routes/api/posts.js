@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { requireAuth } = require('../../utils/auth');
 const { User, Post, Theme, Song } = require('../../db/models');
 
 const router = express.Router();
@@ -33,10 +33,10 @@ router.get('/', async (req, res) => {
     posts.forEach(post => {
         Posts.push(post.toJSON());
     })
-    // Posts.forEach(post => {
-    //     delete post.userId;
-    //     delete post.defaultThemeId;
-    // })
+    Posts.forEach(post => {
+        delete post.userId;
+        delete post.themeId;
+    })
 
     let result = { Posts }
     return res.json(result)
