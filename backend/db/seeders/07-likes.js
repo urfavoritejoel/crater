@@ -29,6 +29,18 @@ module.exports = {
                 userId: 3,
                 postId: 1,
             },
+            {
+                userId: 1,
+                commentId: 2,
+            },
+            {
+                userId: 2,
+                commentId: 3,
+            },
+            {
+                userId: 3,
+                commentId: 1,
+            },
         ], {})
     },
 

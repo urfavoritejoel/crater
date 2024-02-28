@@ -55,25 +55,6 @@ router.get('/current', requireAuth, async (req, res) => {
     return res.json(result)
 });
 
-//Get All Themes by userId
-//Auth required: false
-router.get('/:userId', async (req, res) => {
-    const { userId } = req.params;
-    const themes = await Theme.findAll({
-        where: {
-            userId: userId
-        },
-    });
-
-    let Themes = [];
-    themes.forEach(theme => {
-        Themes.push(theme.toJSON());
-    });
-
-    let result = { Themes };
-    return res.json(result);
-});
-
 //Create a Theme
 //Auth required: true
 router.post('/', requireAuth, async (req, res) => {
