@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Page, Theme } = require('../../db/models');
+const { User, Page } = require('../../db/models');
 
 const router = express.Router();
 
@@ -19,9 +19,9 @@ router.get('/', async (req, res) => {
             {
                 model: User
             },
-            {
-                model: Theme
-            }
+            // {
+            //     model: Theme
+            // }
         ]
     });
     let Pages = []
@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
     })
     Pages.forEach(page => {
         delete page.userId;
-        delete page.defaultThemeId;
+        // delete page.defaultThemeId;
     })
 
     let result = { Pages }
@@ -45,11 +45,11 @@ router.get('/current', requireAuth, async (req, res) => {
         where: {
             userId: user.id
         },
-        include: [
-            {
-                model: Theme
-            }
-        ]
+        // include: [
+        //     {
+        //         model: Theme
+        //     }
+        // ]
     })
 
     let Pages = []
@@ -58,35 +58,7 @@ router.get('/current', requireAuth, async (req, res) => {
     })
     Pages.forEach(page => {
         delete page.userId;
-        delete page.defaultThemeId;
-    })
-
-    let result = { Pages }
-    return res.json(result)
-});
-
-//Get All Pages by userId
-//Auth required: false
-router.get('/:userId', async (req, res) => {
-    const { userId } = req.params;
-    const pages = await Page.findAll({
-        where: {
-            userId: userId
-        },
-        include: [
-            {
-                model: Theme
-            }
-        ]
-    })
-
-    let Pages = []
-    pages.forEach(page => {
-        Pages.push(page.toJSON());
-    })
-    Pages.forEach(page => {
-        delete page.userId;
-        delete page.defaultThemeId;
+        // delete page.defaultThemeId;
     })
 
     let result = { Pages }

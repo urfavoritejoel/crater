@@ -6,6 +6,8 @@ const usersRouter = require('./users.js');
 const pagesRouter = require('./pages.js');
 const postsRouter = require('./posts.js');
 const themesRouter = require('./themes.js');
+const commentsRouter = require('./comments.js');
+const likesRouter = require('./likes.js');
 
 
 //You can use requireAuth as middleware for routes that require sign in
@@ -18,6 +20,8 @@ router.use('/users', usersRouter);
 router.use('/pages', pagesRouter);
 router.use('/posts', postsRouter);
 router.use('/themes', themesRouter);
+router.use('/comments', commentsRouter);
+router.use('/likes', likesRouter);
 
 
 // Restore user

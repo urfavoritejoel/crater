@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.User, { foreignKey: 'userId' });
-      this.belongsTo(models.Theme, { foreignKey: 'defaultThemeId' });
+      // this.belongsTo(models.Theme, { foreignKey: 'defaultThemeId' });
     }
   }
   Page.init({
@@ -26,10 +26,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     defaultThemeId: {
       type: DataTypes.INTEGER,
-      references: {
-        model: 'Themes',
-        key: 'id'
-      },
+      // references: {
+      //   model: 'Themes',
+      //   key: 'id'
+      // },
     },
     headerImg: {
       type: DataTypes.STRING,

@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth } = require('../../utils/auth');
-const { User, Post, Theme, Song } = require('../../db/models');
+const { User, Post, Like, Song, Comment } = require('../../db/models');
 
 const router = express.Router();
 
@@ -21,9 +21,9 @@ router.get('/', async (req, res) => {
             {
                 model: User
             },
-            {
-                model: Theme
-            },
+            // {
+            //     model: Theme
+            // },
             {
                 model: Song
             }
@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
     })
     Posts.forEach(post => {
         delete post.userId;
-        delete post.themeId;
+        // delete post.themeId;
     })
 
     let result = { Posts }
@@ -51,9 +51,9 @@ router.get('/current', requireAuth, async (req, res) => {
             userId: user.id
         },
         include: [
-            {
-                model: Theme
-            },
+            // {
+            //     model: Theme
+            // },
             {
                 model: Song
             }
@@ -66,39 +66,127 @@ router.get('/current', requireAuth, async (req, res) => {
     })
     Posts.forEach(post => {
         delete post.userId;
-        delete post.themeId;
+        // delete post.themeId;
     })
 
     let result = { Posts }
     return res.json(result)
 });
 
-//Get All Posts by userId
+//Get all comments from a post
 //Auth required: false
-router.get('/:userId', async (req, res) => {
-    const { userId } = req.params;
-    const posts = await Post.findAll({
+router.get('/:postId/comments', async (req, res) => {
+    const { postId } = req.params;
+    const post = await Post.findByPk(postId);
+
+    if (!post) {
+        res.status(404);
+        return res.json({
+            message: "Post couldn't be found"
+        })
+    };
+
+    const Comments = await Comment.findAll({
         where: {
-            userId: userId
+            postId: postId
         },
-        include: [
-            {
-                model: Theme
-            }
-        ]
+        include: [{
+            model: User,
+        }],
+    });
+    return res.json({ Comments });
+});
+
+//Add a comment to a post
+//Auth required: true
+router.post('/:postId/comments', requireAuth, async (req, res) => {
+    const { user } = req;
+    let { postId } = req.params;
+    postId = parseInt(postId)
+    let { body } = req.body;
+    const post = await Post.findByPk(postId);
+
+    if (!post) {
+        res.status(404);
+        return res.json({
+            message: "Post couldn't be found"
+        })
+    };
+    const comment = await Comment.create({
+        userId: user.id,
+        postId,
+        body
+    });
+
+    return res.json(comment)
+});
+
+//Get all likes from a post
+//Auth required: false
+router.get('/:postId/likes', async (req, res) => {
+    const { postId } = req.params;
+    const post = await Post.findByPk(postId);
+
+    if (!post) {
+        res.status(404);
+        return res.json({
+            message: "Post couldn't be found"
+        })
+    };
+
+    const likes = await Like.findAll({
+        where: {
+            postId: postId
+        },
+        include: [{
+            model: User,
+        }],
+    });
+
+    let Likes = [];
+    likes.forEach(like => {
+        Likes.push(like.toJSON());
+    })
+    Likes.forEach(like => {
+        delete like.commentId;
     })
 
-    let Posts = []
-    posts.forEach(post => {
-        Posts.push(post.toJSON());
-    })
-    Posts.forEach(post => {
-        delete post.userId;
-        delete post.themeId;
+    return res.json({ Likes });
+});
+
+//Add a like to a post
+//Auth required: true
+router.post('/:postId/likes', requireAuth, async (req, res) => {
+    const { user } = req;
+    let { postId } = req.params;
+    postId = parseInt(postId);
+    const post = await Post.findByPk(postId);
+    const likeCheck = await Like.findAll({
+        where: {
+            userId: user.id,
+            postId: postId
+        }
     })
 
-    let result = { Posts }
-    return res.json(result)
+    if (!post) {
+        res.status(404);
+        return res.json({
+            message: "Post couldn't be found"
+        })
+    };
+    if (likeCheck.length > 0) {
+        res.status(415);
+        return res.json({
+            message: "You already have a like for this post"
+        })
+    };
+
+    const like = await Like.create({
+        userId: user.id,
+        postId,
+    });
+
+    return res.json(like)
 });
 
 //Create a Post
@@ -146,7 +234,7 @@ router.post('/', requireAuth, async (req, res) => {
     resPost['Song'] = song.toJSON();
 
     return res.json(resPost)
-})
+});
 
 //Update a Post
 //Auth required: true, must be owner of post
@@ -169,6 +257,7 @@ router.put('/:postId', requireAuth, async (req, res) => {
             message: "Forbidden"
         });
     };
+
     const updatedPost = await post.update({
         themeId,
         pageId,

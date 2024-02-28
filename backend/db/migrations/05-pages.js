@@ -26,10 +26,10 @@ module.exports = {
       },
       defaultThemeId: {
         type: Sequelize.INTEGER,
-        references: {
-          model: 'Themes',
-          key: 'id'
-        },
+        // references: {
+        //   model: 'Themes',
+        //   key: 'id'
+        // },
       },
       headerImg: {
         type: Sequelize.STRING,
