@@ -460,28 +460,41 @@ Retrieves all posts.
 
     ```json
     {
-        "posts": [
-            {
+    "Posts": [
+        {
+            "id": 1,
+            "pageId": 1,
+            "title": "title",
+            "postType": "song",
+            "body": "post body",
+            "pinned": false,
+            "commentsDisabled": false,
+            "User": {
                 "id": 1,
+                "username": "Demo-lition",
+                "descriptor": "demo",
+                "primaryMedium": null,
+                "profileImg": ""
+            },
+            "Theme": {
+                "id": 1,
+                "userId": 1,
                 "title": "title",
-                "body": "body",
-                "pinned": "bool",
-                "commentsDisabled": "bool",
-                "pageId": "pageId",
-                "theme": {
-                    "bgColor": "bgColor",
-                    "bgImg": "bgImg",
-                    "textFont": "textFont",
-                    "borderStyle": "borderStyle",
-                },
-                "creator": {
-                    "username": "username",
-                    "descriptor": "descriptor",
-                    "primaryMedium": "primaryMedium",
-                    "profileImg": "profileImg",
-                },
+                "bgColor": null,
+                "bgImg": null,
+                "textFont": null,
+                "borderstyle": "rounded"
+            },
+            "Song": {
+                "id": 1,
+                "userId": 1,
+                "postId": 1,
+                "title": "title",
+                "genre": "Pop",
+                "songImg": "image.url"
             }
-        ]
+        }
+      ]
     }
     ```
 
@@ -504,29 +517,35 @@ Retrieves all posts owned by the current user.
 
     ```json
     {
-        "posts": [
-            {
-                "id": 1,
-                "title": "title",
-                "body": "body",
-                "pinned": "bool",
-                "commentsDisabled": "bool",
-                "pageId": "pageId",
-                "theme": {
-                    "bgColor": "bgColor",
-                    "bgImg": "bgImg",
-                    "textFont": "textFont",
-                    "borderStyle": "borderStyle",
-                },
-                "creator": {
-                    "username": "username",
-                    "descriptor": "descriptor",
-                    "primaryMedium": "primaryMedium",
-                    "profileImg": "profileImg",
-                },
-            }
-        ]
-    }
+    "Posts": [
+      {
+        "id": 1,
+        "pageId": 1,
+        "title": "title",
+        "postType": "song",
+        "body": "post body",
+        "pinned": false,
+        "commentsDisabled": false,
+        "Theme": {
+            "id": 1,
+            "userId": 1,
+            "title": "title",
+            "bgColor": null,
+            "bgImg": null,
+            "textFont": null,
+            "borderstyle": "rounded"
+        },
+        "Song": {
+            "id": 1,
+            "userId": 1,
+            "postId": 1,
+            "title": "title",
+            "genre": "Pop",
+            "songImg": "image.url"
+        }
+      }
+    ]
+  }
     ```
 
 ### Get all posts by userId
@@ -548,28 +567,26 @@ Retrieves all posts owned by the user with userId.
 
     ```json
     {
-        "posts": [
-            {
-                "id": 1,
-                "title": "title",
-                "body": "body",
-                "pinned": "bool",
-                "commentsDisabled": "bool",
-                "pageId": "pageId",
-                "theme": {
-                    "bgColor": "bgColor",
-                    "bgImg": "bgImg",
-                    "textFont": "textFont",
-                    "borderStyle": "borderStyle",
-                },
-                "creator": {
-                    "username": "username",
-                    "descriptor": "descriptor",
-                    "primaryMedium": "primaryMedium",
-                    "profileImg": "profileImg",
-                },
-            }
-        ]
+    "Posts": [
+        {
+          "id": 2,
+          "pageId": 2,
+          "title": "title",
+          "postType": "song",
+          "body": "post body",
+          "pinned": false,
+          "commentsDisabled": false,
+          "Theme": {
+            "id": 2,
+            "userId": 2,
+            "title": "title2",
+            "bgColor": null,
+            "bgImg": null,
+            "textFont": null,
+            "borderstyle": "rounded"
+          }
+        }
+      ]
     }
     ```
 
@@ -585,13 +602,27 @@ Create a post when signed in
   * Body:
     ```json
     {
-        "userId": "userId",
-        "themeId": "themeId",
-        "pageId": "pageId",
-        "title": "title",
-        "body": "body",
-        "pinned": "pinned",
-        "commentsDisabled": "commentsDisabled",
+      "id": 4,
+      "userId": 1,
+      "postType": "song",
+      "themeId": 1,
+      "pageId": 1,
+      "title": "title",
+      "body": "post body",
+      "pinned": false,
+      "commentsDisabled": false,
+      "updatedAt": "2024-02-27T22:43:06.588Z",
+      "createdAt": "2024-02-27T22:43:06.588Z",
+      "Song": {
+        "id": 4,
+        "userId": 1,
+        "postId": 4,
+        "title": "song title",
+        "genre": "pop",
+        "songImg": "image.url",
+        "updatedAt": "2024-02-27T22:43:06.624Z",
+        "createdAt": "2024-02-27T22:43:06.624Z"
+      }
     }
     ```
 
@@ -639,13 +670,15 @@ Update a post when signed in
   * Body:
     ```json
     {
-        "userId": "userId",
-        "themeId": "themeId",
-        "pageId": "pageId",
-        "title": "title",
-        "body": "body",
-        "pinned": "pinned",
-        "commentsDisabled": "commentsDisabled",
+      "id": 1,
+      "userId": 1,
+      "themeId": 1,
+      "pageId": 1,
+      "title": "title",
+      "postType": "song",
+      "body": "post body",
+      "pinned": false,
+      "commentsDisabled": false
     }
     ```
 
@@ -936,21 +969,22 @@ Retrieves all themes.
 
     ```json
     {
-        "themes": [
+        "Themes": [
             {
-                "id": 1,
-                "title": "title",
-                "bgColor": "bgColor",
-                "bgImg": "image url/file",
-                "textFont": "textFont",
-                "borderStyle": "borderStyle",
-                "creator": {
-                    "username": "username",
-                    "descriptor": "descriptor",
-                    "primaryMedium": "primaryMedium",
-                    "profileImg": "profileImg",
-                }
-            }
+              "id": 1,
+              "title": "title",
+              "bgColor": null,
+              "bgImg": null,
+              "textFont": null,
+              "borderstyle": "rounded",
+              "User": {
+                  "id": 1,
+                  "username": "Demo-lition",
+                  "descriptor": "demo",
+                  "primaryMedium": null,
+                  "profileImg": ""
+              }
+            },
         ]
     }
     ```
@@ -974,22 +1008,16 @@ Retrieves all themes owned by the current user.
 
     ```json
     {
-        "themes": [
-            {
-                "id": 1,
-                "title": "title",
-                "bgColor": "bgColor",
-                "bgImg": "image url/file",
-                "textFont": "textFont",
-                "borderStyle": "borderStyle",
-                "creator": {
-                    "username": "username",
-                    "descriptor": "descriptor",
-                    "primaryMedium": "primaryMedium",
-                    "profileImg": "profileImg",
-                }
-            }
-        ]
+      "Themes": [
+        {
+          "id": 1,
+          "title": "title",
+          "bgColor": null,
+          "bgImg": null,
+          "textFont": null,
+          "borderstyle": "rounded"
+        },
+      ]
     }
     ```
 
@@ -1012,22 +1040,17 @@ Retrieves all themes owned by the user with userId.
 
     ```json
     {
-        "themes": [
-            {
-                "id": 1,
-                "title": "title",
-                "bgColor": "bgColor",
-                "bgImg": "image url/file",
-                "textFont": "textFont",
-                "borderStyle": "borderStyle",
-                "creator": {
-                    "username": "username",
-                    "descriptor": "descriptor",
-                    "primaryMedium": "primaryMedium",
-                    "profileImg": "profileImg",
-                }
-            }
-        ]
+    "Themes": [
+        {
+          "id": 3,
+          "userId": 3,
+          "title": "title3",
+          "bgColor": null,
+          "bgImg": null,
+          "textFont": null,
+          "borderstyle": "rounded"
+        },
+      ]
     }
     ```
 
@@ -1043,12 +1066,11 @@ Create a theme signed in
   * Body:
     ```json
     {
-        "userId": "userId",
-        "title": "title",
-        "bgColor": "bgColor",
-        "bgImg": "image url/file",
-        "textFont": "textFont",
-        "borderStyle": "borderStyle",
+      "title": "title",
+      "bgColor": "color",
+      "bgImg": "image.url",
+      "textFont": "font",
+      "borderStyle": "rounded"
     }
     ```
 
@@ -1059,21 +1081,15 @@ Create a theme signed in
   * Body:
     ```json
     {
-        "theme":
-            {
-                "id": 1,
-                "title": "title",
-                "bgColor": "bgColor",
-                "bgImg": "image url/file",
-                "textFont": "textFont",
-                "borderStyle": "borderStyle",
-                "creator": {
-                    "username": "username",
-                    "descriptor": "descriptor",
-                    "primaryMedium": "primaryMedium",
-                    "profileImg": "profileImg",
-                }
-            }
+      "id": 4,
+      "userId": 1,
+      "title": "title",
+      "bgColor": "color",
+      "bgImg": "image.url",
+      "textFont": "font",
+      "borderstyle": "rounded",
+      "updatedAt": "2024-02-27T23:22:06.337Z",
+      "createdAt": "2024-02-27T23:22:06.337Z"
     }
     ```
 
@@ -1090,12 +1106,11 @@ Update a theme when signed in
   * Body:
     ```json
     {
-        "userId": "userId",
-        "title": "title",
-        "bgColor": "bgColor",
-        "bgImg": "image url/file",
-        "textFont": "textFont",
-        "borderStyle": "borderStyle",
+      "title": "title",
+      "bgColor": "color",
+      "bgImg": "image.url",
+      "textFont": "font",
+      "borderStyle": "rounded"
     }
     ```
 
@@ -1106,21 +1121,14 @@ Update a theme when signed in
   * Body:
     ```json
     {
-        "theme":
-            {
-                "id": 1,
-                "title": "title",
-                "bgColor": "bgColor",
-                "bgImg": "image url/file",
-                "textFont": "textFont",
-                "borderStyle": "borderStyle",
-                "creator": {
-                    "username": "username",
-                    "descriptor": "descriptor",
-                    "primaryMedium": "primaryMedium",
-                    "profileImg": "profileImg",
-                }
-            }
+      "id": 1,
+      "userId": 1,
+      "title": "titlea",
+      "bgColor": "color",
+      "bgImg": "image.url",
+      "textFont": "font",
+      "borderstyle": "rounded",
+      "updatedAt": "2024-02-27T23:29:05.596Z"
     }
     ```
 
@@ -1145,7 +1153,73 @@ Delete a theme when signed in
     ```
 
 ## COMMENTS
-### Get comments from a post
+### Get All Comments
+
+Retrieves all comments.
+
+* Require Authentication: false
+* Request
+  * Method: GET
+  * URL: api/comments
+  * Headers: none
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "Comments": [
+          {
+            "id": 1,
+            "postId": 2,
+            "body": "body",
+            "User": {
+                "id": 1,
+                "username": "Demo-lition",
+                "descriptor": "demo",
+                "primaryMedium": null,
+                "profileImg": ""
+            }
+          },
+        ]
+    }
+    ```
+
+### Get All Comments by Current User
+
+Retrieves all comments owned by the current user.
+
+* Require Authentication: true
+* Request
+  * Method: GET
+  * URL: api/comments/current
+  * Headers: none
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+    "Comments": [
+        {
+          "id": 1,
+          "userId": 1,
+          "postId": 2,
+          "body": "body"
+        }
+      ]
+    }
+    ```
+
+### Get All Comments From a Post
 
 Retrieve all comments from a post based on postId
 
@@ -1163,22 +1237,62 @@ Retrieve all comments from a post based on postId
   * Body:
     ```json
     {
-        "comments": [
-            {
-                "body": "body",
-                "creator": {
-                    "username": "username",
-                    "descriptor": "descriptor",
-                    "primaryMedium": "primaryMedium",
-                    "profileImg": "profileImg",
-                }
-            }
-        ]
+    "Comments": [
+        {
+          "id": 1,
+          "userId": 1,
+          "postId": 2,
+          "body": "body",
+          "User": {
+            "id": 1,
+            "username": "Demo-lition",
+            "descriptor": "demo",
+            "primaryMedium": null,
+            "profileImg": ""
+          }
+        }
+      ]
     }
     ```
 
+### Get All Comments by userId
 
-### Add a comment to a post
+Retrieves all comments owned by the user with userId.
+
+* Require Authentication: true
+* Request
+  * Method: GET
+  * URL: api/users/:userId/comments
+  * Headers: none
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+    "Comments": [
+        {
+          "id": 1,
+          "userId": 1,
+          "postId": 2,
+          "body": "body",
+          "User": {
+            "id": 1,
+            "username": "Demo-lition",
+            "descriptor": "demo",
+            "primaryMedium": null,
+            "profileImg": ""
+            }
+        }
+      ]
+    }
+    ```
+
+### Add a Comment to a Post
 Add a comment to a post based on postId
 
 * Require Authentication: true
@@ -1190,9 +1304,7 @@ Add a comment to a post based on postId
   * Body:
     ```json
     {
-        "userId": "userId",
-        "postId": "postId",
-        "body": "body",
+        "body": "body"
     }
     ```
 
@@ -1203,20 +1315,16 @@ Add a comment to a post based on postId
   * Body:
     ```json
     {
-        "comment":
-            {
-                "body": "body",
-                "creator": {
-                    "username": "username",
-                    "descriptor": "descriptor",
-                    "primaryMedium": "primaryMedium",
-                    "profileImg": "profileImg",
-                }
-            }
+      "id": 1,
+      "userId": 1,
+      "postId": 2,
+      "body": "comment body",
+      "updatedAt": "2024-02-28T00:57:55.330Z",
+      "createdAt": "2024-02-28T00:57:55.330Z"
     }
     ```
 
-### Update a comment to a post
+### Update a Comment
 Revise a comment to a post based on commentId
 
 * Require Authentication: true
@@ -1228,9 +1336,7 @@ Revise a comment to a post based on commentId
   * Body:
     ```json
     {
-        "userId": "userId",
-        "postId": "postId",
-        "body": "body",
+        "body": "body"
     }
     ```
 
@@ -1241,20 +1347,15 @@ Revise a comment to a post based on commentId
   * Body:
     ```json
     {
-        "comment":
-            {
-                "body": "body",
-                "creator": {
-                    "username": "username",
-                    "descriptor": "descriptor",
-                    "primaryMedium": "primaryMedium",
-                    "profileImg": "profileImg",
-                }
-            }
+      "id": 1,
+      "userId": 1,
+      "postId": 2,
+      "body": "nice!",
+      "updatedAt": "2024-02-28T01:06:26.288Z"
     }
     ```
 
-### Remove a comment to a post
+### Delete a Comment
 
 Remove a comment to a post based on commentId
 
@@ -1275,7 +1376,115 @@ Remove a comment to a post based on commentId
     ```
 
 ## LIKES
-### View all the likes on a post
+### Get All Likes
+
+Retrieves all likes.
+
+* Require Authentication: false
+* Request
+  * Method: GET
+  * URL: api/likes
+  * Headers: none
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "Likes": [
+        {
+            "id": 1,
+            "postId": 2,
+            "commentId": null,
+            "User": {
+                "id": 1,
+                "username": "Demo-lition",
+                "descriptor": "demo",
+                "primaryMedium": null,
+                "profileImg": ""
+            }
+        },
+        {
+            "id": 2,
+            "postId": 3,
+            "commentId": null,
+            "User": {
+                "id": 2,
+                "username": "Demo-lition2",
+                "descriptor": "demo2",
+                "primaryMedium": null,
+                "profileImg": ""
+            }
+        }
+      ]
+    }
+    ```
+
+### Get All Likes by Current User
+
+Retrieves all likes owned by the current user.
+
+* Require Authentication: true
+* Request
+  * Method: GET
+  * URL: api/likes/current
+  * Headers: none
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "Likes": [
+        {
+            "id": 1,
+            "userId": 1,
+            "postId": 2,
+            "commentId": null
+        }
+      ]
+    }
+    ```
+
+### Get All Likes by userId
+
+Retrieves all likes owned by the user with userId.
+
+* Require Authentication: true
+* Request
+  * Method: GET
+  * URL: api/users/:userId/likes
+  * Headers: none
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "Likes": [
+        {
+            "id": 1,
+            "userId": 1,
+            "postId": 2,
+            "commentId": null
+        }
+      ]
+    }
+    ```
+
+### Get All Likes on a Post
 Get all likes from a post
 
 * Require Authentication: false
@@ -1292,24 +1501,61 @@ Get all likes from a post
   * Body:
     ```json
     {
-        "likes" [
-            {
-                "id": "id",
-                "postId": "postId",
-                "creator": {
-                    "username": "username",
-                    "descriptor": "descriptor",
-                    "primaryMedium": "primaryMedium",
-                    "profileImg": "profileImg",
-                }
-            },
+        "Likes": [
+          {
+              "id": 1,
+              "userId": 1,
+              "postId": 2,
+              "commentId": null,
+              "User": {
+                  "id": 1,
+                  "username": "Demo-lition",
+                  "descriptor": "demo",
+                  "primaryMedium": null,
+                  "profileImg": ""
+              }
+          }
         ]
     }
     ```
 
+### Get All Likes on a Comment
+Get all likes from a comment
 
-### Add a like to a post
-add a like to a post
+* Require Authentication: false
+* Request
+  * Method: GET
+  * URL: /api/comments/:commentId/likes
+  * Headers: none
+  * Body:none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+    ```json
+    {
+        "Likes": [
+        {
+            "id": 1,
+            "userId": 1,
+            "commentId": 1,
+            "User": {
+                "id": 1,
+                "username": "Demo-lition",
+                "descriptor": "demo",
+                "primaryMedium": null,
+                "profileImg": ""
+            }
+        }
+      ]
+    }
+    ```
+
+
+### Add a Like to a Post
+Add a like to a post
 
 * Require Authentication: true
 * Request
@@ -1317,13 +1563,7 @@ add a like to a post
   * URL: /api/posts/:postId/likes
   * Headers:
     * Content-Type: application/json
-  * Body:
-    ```json
-    {
-        "userId": "userId",
-        "postId": "postId",
-    }
-    ```
+  * Body: none
 
 * Successful Response
   * Status Code: 201
@@ -1332,27 +1572,47 @@ add a like to a post
   * Body:
     ```json
     {
-        "like"
-            {
-                "id": "id",
-                "postId": "postId",
-                "creator": {
-                    "username": "username",
-                    "descriptor": "descriptor",
-                    "primaryMedium": "primaryMedium",
-                    "profileImg": "profileImg",
-                }
-            },
+      "id": 25,
+      "userId": 1,
+      "postId": 1,
+      "updatedAt": "2024-02-28T02:14:56.110Z",
+      "createdAt": "2024-02-28T02:14:56.110Z"
     }
     ```
 
-### Remove a like to a post
-Remove a like to a post
+### Add a Like to a Comment
+Add a like to a comment
+
+* Require Authentication: true
+* Request
+  * Method: POST
+  * URL: /api/comments/:commentId/likes
+  * Headers:
+    * Content-Type: application/json
+  * Body: none
+
+* Successful Response
+  * Status Code: 201
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+    ```json
+    {
+      "id": 25,
+      "userId": 1,
+      "postId": 1,
+      "updatedAt": "2024-02-28T02:14:56.110Z",
+      "createdAt": "2024-02-28T02:14:56.110Z"
+    }
+    ```
+
+### Remove a Like from a Post
+Remove a like from a post
 
 * Require Authentication: true
 * Request
   * Method: DELETE
-  * URL: /api/posts/:postId/likes
+  * URL: /api/likes/:likeId
   * Headers: none
   * Body: none
 

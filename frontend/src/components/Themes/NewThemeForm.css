@@ -1,0 +1,5 @@
+.preview-post-box {
+    border: 1px rgb(255, 255, 255) solid;
+    width: 500px;
+    min-height: 100px;
+}

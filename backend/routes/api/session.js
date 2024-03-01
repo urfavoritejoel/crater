@@ -52,7 +52,9 @@ router.post('/', async (req, res, next) => {
     await setTokenCookie(res, safeUser);
 
     return res.json({
-        user: safeUser
+        id: user.id,
+        email: user.email,
+        username: user.username,
     });
 });
 

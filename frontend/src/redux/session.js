@@ -1,4 +1,5 @@
 import { csrfFetch } from './csrf';
+import { postPageThunk } from './pages';
 
 //Constants
 const SET_USER = 'session/setUser';
@@ -17,22 +18,22 @@ const removeUser = () => ({
 
 
 export const thunkAuthenticate = () => async (dispatch) => {
-    try{
+    try {
         const response = await csrfFetch("/api/restore-user");
         if (response.ok) {
             const data = await response.json();
             dispatch(setUser(data));
         }
-    } catch (e){
+    } catch (e) {
         return e
     }
 };
 
 export const thunkLogin = (credentials) => async dispatch => {
-    const {email, password} = credentials
+    const { email, password } = credentials
     const response = await csrfFetch("/api/session", {
         method: "POST",
-        body: JSON.stringify({credential: email, password})
+        body: JSON.stringify({ credential: email, password })
     });
 
     if (response.ok) {
@@ -53,9 +54,12 @@ export const thunkSignup = (user) => async (dispatch) => {
         body: JSON.stringify(user)
     });
 
+    const page = {}
+
     if (response.ok) {
         const data = await response.json();
         dispatch(setUser(data));
+        dispatch(postPageThunk(page));
     } else if (response.status < 500) {
         const errorMessages = await response.json();
         return errorMessages
@@ -70,6 +74,40 @@ export const thunkLogout = () => async (dispatch) => {
     });
     dispatch(removeUser());
 };
+
+export const updateUserThunk = (userId, form) => async (dispatch) => {
+    const { img_url } = form
+    try {
+
+        const formData = new FormData();
+
+        formData.append('userId', userId)
+        formData.append("image", img_url);
+
+        const option = {
+            method: "PUT",
+            headers: { 'Content-Type': 'multipart/form-data' },
+            body: formData
+        }
+
+        const response = await csrfFetch(`/api/users/${userId}/update`, option);
+        if (response.ok) {
+            const user = await response.json();
+            dispatch(editUser(user));
+
+        } else if (response.status < 500) {
+            const data = await response.json();
+            if (data.errors) {
+                return data
+            } else {
+                throw new Error('An error occured. Please try again.')
+            }
+        }
+        return response;
+    } catch (e) {
+        return e
+    }
+}
 
 
 const initialState = { user: null };

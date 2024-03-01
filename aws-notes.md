@@ -116,7 +116,7 @@ export default Navigation;
 
 ```
 
-3. update csrfFetch to have multipart
+3. update csrfFetch to have multipart.
 
 ```js
 import Cookies from 'js-cookie';
@@ -328,7 +328,7 @@ router.put('/:id/update', singleMulterUpload('image'), async (req, res, next) =>
         if(userId){
             user = await User.findByPk(userId);
         } else{
-            throw new Error("No user founder with that id")
+            throw new Error("No user found with that id")
         }
 
         let imgUrl;
