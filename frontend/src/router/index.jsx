@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
-import Profile from '../components/Profile';
+import PageView from '../components/Pages/PageView';
 import Layout from './Layout';
 import Splash from '../components/Splash';
 import NewThemeForm from '../components/Themes';
@@ -23,8 +23,8 @@ export const router = createBrowserRouter([
         element: <SignupFormPage />,
       },
       {
-        path: "profile",
-        element: <Profile />,
+        path: "page",
+        element: <PageView />,
       },
       {
         path: "themes/new",

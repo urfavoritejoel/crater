@@ -16,7 +16,7 @@ function Navigation() {
       <li>
         <ProfileButton />
       </li>
-      {user && (
+      {user && user.profileImg && (
         <li>
           {user.profileImg ?
             <img

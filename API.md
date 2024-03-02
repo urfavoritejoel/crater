@@ -597,7 +597,7 @@ Create a post when signed in
 * Require Authentication: true
 * Request
   * Method: POST
-  * URL: api/posts
+  * URL: api/pages/:pageId/posts
   * Headers: application/json
   * Body:
     ```json
