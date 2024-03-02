@@ -4,6 +4,8 @@ const GET_ALL_POSTS = 'posts/getAll';
 const GET_CURRENT_USER_POSTS = 'posts/getCurrentUserPosts';
 const GET_POSTS_BY_USER = 'posts/getUserIdPosts';
 const CREATE_POST = 'posts/create';
+const PUT_POST = 'posts/put';
+const DELETE_POST = 'posts/delete';
 
 
 const getAllPosts = (posts) => ({
@@ -32,6 +34,16 @@ const createPost = (post) => ({
     payload: post
 });
 
+const putPost = (post) => ({
+    type: PUT_POST,
+    payload: post
+});
+
+const deletePost = (postId) => ({
+    type: DELETE_POST,
+    payload: postId,
+});
+
 
 export const getAllPostsThunk = () => async (dispatch) => {
     const res = await csrfFetch('/api/posts');
@@ -48,7 +60,7 @@ export const getCurrentUserPostsThunk = (userId) => async (dispatch) => {
 };
 
 export const getUserIdPostsThunk = (userId) => async (dispatch) => {
-    const res = await csrfFetch(`/api/posts/${userId}`);
+    const res = await csrfFetch(`/api/users/${userId}/posts`);
     const data = await res.json();
     dispatch(getUserIdPosts(data.Posts, userId))
     return data.Posts;
@@ -68,7 +80,44 @@ export const createPostThunk = (post, pageId) => async (dispatch) => {
         }
         throw res;
     } catch (e) {
-        const data = await e.json()
+        const data = await e.json();
+        return data;
+    }
+};
+
+export const putPostThunk = (post) => async (dispatch) => {
+    try {
+        const res = await fetch(`/api/posts/${post.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: post
+        })
+
+        if (res.ok) {
+            const data = await res.json();
+            dispatch(putPost(data))
+            return data
+        }
+        throw res;
+    } catch (e) {
+        const data = await e.json();
+        return data;
+    }
+};
+
+export const deletePostThunk = (postId) => async (dispatch) => {
+    try {
+        const res = await fetch(`api/posts/${postId}`, {
+            method: "DELETE",
+        });
+        if (res.ok) {
+            const data = await res.json();
+            dispatch(deletePost(postId));
+            return data;
+        }
+        throw res;
+    } catch (e) {
+        const data = await e.json();
         return data;
     }
 };
@@ -97,6 +146,19 @@ const postsReducer = (state = initialState, action) => {
         case CREATE_POST:
             newState.allPosts.push(action.payload);
             newState.byId[action.payload.id] = action.payload;
+            return newState;
+        case PUT_POST:
+            const index = newState.allPosts.findIndex(
+                (post) => post.id === action.payload.id
+            );
+            newState.allPosts[index] = action.payload;
+            newState.byId[action.payload.id] = action.payload;
+            return newState;
+        case DELETE_POST:
+            newState.allPosts = newState.allPosts.filter(
+                (post) => post.id !== action.payload.postId
+            );
+            delete newState.byId[action.payload];
             return newState;
         default:
             return state;

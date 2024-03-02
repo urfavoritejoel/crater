@@ -555,7 +555,7 @@ Retrieves all posts owned by the user with userId.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: api/posts/:userId
+  * URL: api/users/:userId/posts/
   * Headers: none
   * Body: none
 

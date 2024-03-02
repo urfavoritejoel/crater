@@ -1,10 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
+import Profile from '../components/Profile/Profile';
 import PageView from '../components/Pages/PageView';
 import Layout from './Layout';
 import Splash from '../components/Splash';
-import NewThemeForm from '../components/Themes';
+import NewPostForm from '../components/Posts/NewPostFormModal';
 
 export const router = createBrowserRouter([
   {
@@ -23,12 +24,16 @@ export const router = createBrowserRouter([
         element: <SignupFormPage />,
       },
       {
-        path: "page",
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "pages/:pageId",
         element: <PageView />,
       },
       {
-        path: "themes/new",
-        element: <NewThemeForm />,
+        path: "posts/new",
+        element: <NewPostForm />,
       },
     ],
   },
