@@ -32,14 +32,6 @@ module.exports = {
         // },
         allowNull: false,
       },
-      pageId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Pages',
-          key: 'id'
-        },
-        allowNull: false,
-      },
       postType: {
         type: Sequelize.STRING,
         allowNull: false,

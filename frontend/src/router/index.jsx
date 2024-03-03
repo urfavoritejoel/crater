@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: "pages/:pageId",
+        path: "users/:userId/page",
         element: <PageView />,
       },
       {

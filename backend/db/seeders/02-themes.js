@@ -1,7 +1,6 @@
 'use strict';
 
 const { Theme, Sequelize } = require('../models');
-const bcrypt = require('bcryptjs');
 
 
 let options = {};
@@ -20,17 +19,17 @@ module.exports = {
             {
                 userId: 1,
                 title: "title",
-                borderstyle: "rounded",
+                borderstyle: "solid",
             },
             {
                 userId: 2,
                 title: "title2",
-                borderstyle: "rounded",
+                borderstyle: "solid",
             },
             {
                 userId: 3,
                 title: "title3",
-                borderstyle: "rounded",
+                borderstyle: "solid",
             },
         ], {})
     },

@@ -11,8 +11,6 @@ const requireProperAuth = (user, id) => {
     return user.id === id;
 }
 
-const postTypes = ['update', 'song'];
-
 //Get All Pages
 //Auth required: false
 router.get('/', async (req, res) => {
@@ -65,53 +63,6 @@ router.get('/current', requireAuth, async (req, res) => {
 
     let result = { Pages }
     return res.json(result)
-});
-
-//Create a Post on Page
-//Auth required: true
-router.post('/:pageId/posts', requireAuth, async (req, res) => {
-    const { user } = req;
-    let { pageId } = req.params;
-    let { themeId, title, postType, body, pinned, commentsDisabled } = req.body;
-    themeId = parseInt(themeId);
-    pageId = parseInt(pageId);
-
-    if (!postTypes.includes(postType)) {
-        res.status(415);
-        return res.json({
-            message: "Invalid Post Type"
-        });
-    }
-
-    let resPost = {};
-    let song = {};
-
-    const post = await Post.create({
-        userId: user.id,
-        postType,
-        themeId,
-        pageId,
-        title,
-        body,
-        pinned,
-        commentsDisabled
-    })
-
-    resPost = post.toJSON();
-    //Any additonal post types to be added to this if block
-    if (postType === "song") {
-        let { title, genre, songImg } = req.body.song;
-        song = await Song.create({
-            userId: user.id,
-            postId: post.id,
-            title,
-            genre,
-            songImg
-        })
-        resPost['Song'] = song.toJSON();
-    }
-
-    return res.json(resPost)
 });
 
 //Create a Page

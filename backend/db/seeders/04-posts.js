@@ -1,7 +1,6 @@
 'use strict';
 
 const { Post, Sequelize } = require('../models');
-const bcrypt = require('bcryptjs');
 
 
 let options = {};
@@ -19,32 +18,29 @@ module.exports = {
         return queryInterface.bulkInsert(options, [
             {
                 userId: 1,
-                postType: "song",
+                postType: "update",
                 title: "title",
                 body: "post body",
                 pinned: false,
                 commentsDisabled: false,
-                pageId: 1,
                 themeId: 1,
             },
             {
                 userId: 2,
-                postType: "song",
+                postType: "update",
                 title: "title",
                 body: "post body",
                 pinned: false,
                 commentsDisabled: false,
-                pageId: 2,
                 themeId: 2,
             },
             {
                 userId: 3,
-                postType: "song",
+                postType: "update",
                 title: "title",
                 body: "post body",
                 pinned: false,
                 commentsDisabled: false,
-                pageId: 3,
                 themeId: 3,
             },
         ], {})

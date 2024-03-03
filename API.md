@@ -228,218 +228,6 @@ user's information.
     }
     ```
 
-## PAGES
-### Get All Pages
-
-Retrieves all pages.
-
-* Require Authentication: false
-* Request
-  * Method: GET
-  * URL: api/pages
-  * Headers: none
-  * Body: none
-
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-        "pages": [
-            {
-                "id": 1,
-                "headerImg": "image url/file",
-                "Theme": {
-                    "id": 1,
-                    "userId": 1,
-                    "bgColor": "bgColor",
-                    "bgImg": "bgImg",
-                    "textFont": "textFont",
-                    "borderStyle": "borderStyle",
-                },
-                "User": {
-                    "id": 1,
-                    "username": "username",
-                    "descriptor": "descriptor",
-                    "primaryMedium": "primaryMedium",
-                    "profileImg": "profileImg",
-                }
-            }
-        ]
-    }
-    ```
-
-### Get All Pages by Current User
-
-Retrieves all pages owned by the current user.
-
-* Require Authentication: true
-* Request
-  * Method: GET
-  * URL: api/pages/current
-  * Headers: none
-  * Body: none
-
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-        "pages": [
-            {
-                "id": 1,
-                "headerImg": "image url/file",
-                "Theme": {
-                    "bgColor": "bgColor",
-                    "bgImg": "bgImg",
-                    "textFont": "textFont",
-                    "borderStyle": "borderStyle",
-                },
-                "User": {
-                    "username": "username",
-                    "descriptor": "descriptor",
-                    "primaryMedium": "primaryMedium",
-                    "profileImg": "profileImg",
-                }
-            }
-        ]
-    }
-    ```
-
-### Get All Pages by userId
-
-Retrieves all pages owned by the user with userId.
-
-* Require Authentication: false
-* Request
-  * Method: GET
-  * URL: api/pages/:userId
-  * Headers: none
-  * Body: none
-
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-        "pages": [
-            {
-                "id": 1,
-                "headerImg": "image url/file",
-                "Theme": {
-                    "bgColor": "bgColor",
-                    "bgImg": "bgImg",
-                    "textFont": "textFont",
-                    "borderStyle": "borderStyle",
-                },
-                "User": {
-                    "username": "username",
-                    "descriptor": "descriptor",
-                    "primaryMedium": "primaryMedium",
-                    "profileImg": "profileImg",
-                }
-            }
-        ]
-    }
-    ```
-
-### Create a Page
-
-Create a page when signed in
-
-* Require Authentication: true
-* Request
-  * Method: POST
-  * URL: api/pages
-  * Headers: application/json
-  * Body:
-    ```json
-    {
-        "defaultThemeId": "Theme",
-        "headerImg": "image url/file",
-    }
-    ```
-
-* Successful Response
-  * Status Code: 201
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-    ```json
-    {
-      "id": 1,
-      "userId": 1,
-      "defaultThemeId": 1,
-      "headerImg": "image.url",
-      "updatedAt": "",
-      "createdAt": "",
-    }
-    ```
-
-
-### Update a Page
-
-Update a page when signed in
-
-* Require Authentication: true
-* Request
-  * Method: PATCH/PUT
-  * URL: api/pages/:pageId
-  * Headers: application/json
-  * Body:
-    ```json
-    {
-        "userId": "userId",
-        "defaultThemeId": "Theme",
-        "headerImg": "image url/file",
-    }
-    ```
-
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-    ```json
-    {
-      "id": 1,
-      "userId": 1,
-      "defaultThemeId": 1,
-      "headerImg": "image.url",
-      "updatedAt": "",
-      "createdAt": "",
-    }
-    ```
-
-### Delete a page
-
-Delete a page when signed in
-
-* Require Authentication: true
-* Request
-  * Method: DELETE
-  * URL: api/pages/:pageId
-  * Headers: application/json
-  * Body: none
-
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-    ```json
-    {"message": "Successfully Deleted"}
-    ```
-
 ## POSTS
 ### View all posts
 
@@ -463,7 +251,6 @@ Retrieves all posts.
     "Posts": [
         {
             "id": 1,
-            "pageId": 1,
             "title": "title",
             "postType": "song",
             "body": "post body",
@@ -520,7 +307,6 @@ Retrieves all posts owned by the current user.
     "Posts": [
       {
         "id": 1,
-        "pageId": 1,
         "title": "title",
         "postType": "song",
         "body": "post body",
@@ -570,7 +356,6 @@ Retrieves all posts owned by the user with userId.
     "Posts": [
         {
           "id": 2,
-          "pageId": 2,
           "title": "title",
           "postType": "song",
           "body": "post body",
@@ -597,32 +382,17 @@ Create a post when signed in
 * Require Authentication: true
 * Request
   * Method: POST
-  * URL: api/pages/:pageId/posts
+  * URL: api/posts
   * Headers: application/json
   * Body:
     ```json
     {
-      "id": 4,
-      "userId": 1,
-      "postType": "song",
-      "themeId": 1,
-      "pageId": 1,
-      "title": "title",
-      "body": "post body",
-      "pinned": false,
-      "commentsDisabled": false,
-      "updatedAt": "2024-02-27T22:43:06.588Z",
-      "createdAt": "2024-02-27T22:43:06.588Z",
-      "Song": {
-        "id": 4,
-        "userId": 1,
-        "postId": 4,
-        "title": "song title",
-        "genre": "pop",
-        "songImg": "image.url",
-        "updatedAt": "2024-02-27T22:43:06.624Z",
-        "createdAt": "2024-02-27T22:43:06.624Z"
-      }
+        "postType": "update",
+        "themeId": 1,
+        "title": "title",
+        "body": "post body",
+        "pinned": false,
+        "commentsDisabled": false
     }
     ```
 
@@ -633,27 +403,16 @@ Create a post when signed in
   * Body:
     ```json
     {
-        "post":
-            {
-                "id": 1,
-                "title": "title",
-                "body": "body",
-                "pinned": "bool",
-                "commentsDisabled": "bool",
-                "pageId": "pageId",
-                "theme": {
-                    "bgColor": "bgColor",
-                    "bgImg": "bgImg",
-                    "textFont": "textFont",
-                    "borderStyle": "borderStyle",
-                },
-                "creator": {
-                    "username": "username",
-                    "descriptor": "descriptor",
-                    "primaryMedium": "primaryMedium",
-                    "profileImg": "profileImg",
-                },
-            }
+      "id": 1,
+      "userId": 1,
+      "postType": "update",
+      "themeId": 1,
+      "title": "title",
+      "body": "post body",
+      "pinned": false,
+      "commentsDisabled": false,
+      "updatedAt": "2024-03-03T03:26:02.780Z",
+      "createdAt": "2024-03-03T03:26:02.780Z"
     }
     ```
 
@@ -670,15 +429,11 @@ Update a post when signed in
   * Body:
     ```json
     {
-      "id": 1,
-      "userId": 1,
-      "themeId": 1,
-      "pageId": 1,
-      "title": "title",
-      "postType": "song",
-      "body": "post body",
-      "pinned": false,
-      "commentsDisabled": false
+        "themeId": 1,
+        "title": "title",
+        "body": "post body",
+        "pinned": false,
+        "commentsDisabled": false
     }
     ```
 
@@ -689,27 +444,14 @@ Update a post when signed in
   * Body:
     ```json
     {
-        "post":
-            {
-                "id": 1,
-                "title": "title",
-                "body": "body",
-                "pinned": "bool",
-                "commentsDisabled": "bool",
-                "pageId": "pageId",
-                "theme": {
-                    "bgColor": "bgColor",
-                    "bgImg": "bgImg",
-                    "textFont": "textFont",
-                    "borderStyle": "borderStyle",
-                },
-                "creator": {
-                    "username": "username",
-                    "descriptor": "descriptor",
-                    "primaryMedium": "primaryMedium",
-                    "profileImg": "profileImg",
-                },
-            }
+        "id": 1,
+        "userId": 1,
+        "themeId": 1,
+        "title": "title",
+        "postType": "update",
+        "body": "post body",
+        "pinned": false,
+        "commentsDisabled": false
     }
     ```
 

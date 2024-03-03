@@ -9,7 +9,9 @@ const router = express.Router();
 
 const requireProperAuth = (user, id) => {
     return user.id === id;
-}
+};
+
+const postTypes = ['update', 'song'];
 
 //Get all Posts
 //Auth required: false
@@ -38,7 +40,7 @@ router.get('/', async (req, res) => {
 
     let result = { Posts }
     return res.json(result)
-})
+});
 
 //Get All Posts by Current User
 //Auth required: true
@@ -187,15 +189,57 @@ router.post('/:postId/likes', requireAuth, async (req, res) => {
     return res.json(like)
 });
 
+//Create a Post
+//Auth required: true
+router.post('/', requireAuth, async (req, res) => {
+    let { user } = req;
+    let { themeId, title, postType, body, pinned, commentsDisabled } = req.body;
+    themeId = parseInt(themeId);
+    const userId = parseInt(user.id);
 
+    if (!postTypes.includes(postType)) {
+        res.status(415);
+        return res.json({
+            message: "Invalid Post Type"
+        });
+    }
+
+    let resPost = {};
+    let song = {};
+
+    const post = await Post.create({
+        userId,
+        postType,
+        themeId,
+        title,
+        body,
+        pinned,
+        commentsDisabled
+    })
+
+    resPost = post.toJSON();
+    //Any additonal post types to be added to this if block
+    if (postType === "song") {
+        let { title, genre, songImg } = req.body.song;
+        song = await Song.create({
+            userId: userId,
+            postId: post.id,
+            title,
+            genre,
+            songImg
+        })
+        resPost['Song'] = song.toJSON();
+    }
+
+    return res.json(resPost)
+});
 
 //Update a Post
 //Auth required: true, must be owner of post
 router.put('/:postId', requireAuth, async (req, res) => {
     const { postId } = req.params;
-    let { themeId, pageId, title, body, pinned, commentsDisabled } = req.body;
+    let { themeId, title, body, pinned, commentsDisabled } = req.body;
     themeId = parseInt(themeId);
-    pageId = parseInt(pageId);
     const post = await Post.findByPk(postId);
 
     if (!post) {
@@ -213,7 +257,6 @@ router.put('/:postId', requireAuth, async (req, res) => {
 
     const updatedPost = await post.update({
         themeId,
-        pageId,
         title,
         body,
         pinned,

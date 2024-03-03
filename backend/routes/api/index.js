@@ -3,7 +3,6 @@ const { restoreUser, requireAuth, setTokenCookie } = require('../../utils/auth.j
 const { User } = require('../../db/models');
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
-const pagesRouter = require('./pages.js');
 const postsRouter = require('./posts.js');
 const themesRouter = require('./themes.js');
 const commentsRouter = require('./comments.js');
@@ -17,7 +16,6 @@ router.use(restoreUser);
 
 router.use('/session', sessionRouter);
 router.use('/users', usersRouter);
-router.use('/pages', pagesRouter);
 router.use('/posts', postsRouter);
 router.use('/themes', themesRouter);
 router.use('/comments', commentsRouter);

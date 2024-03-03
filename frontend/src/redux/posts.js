@@ -66,12 +66,12 @@ export const getUserIdPostsThunk = (userId) => async (dispatch) => {
     return data.Posts;
 };
 
-export const createPostThunk = (post, pageId) => async (dispatch) => {
+export const createPostThunk = (post) => async (dispatch) => {
     try {
-        const res = await csrfFetch(`/api/pages/${pageId}/posts`, {
+        const res = await csrfFetch(`/api/posts`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: post,
+            body: JSON.stringify(post),
         });
         if (res.ok) {
             const data = await res.json();
