@@ -1,6 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const { check } = require('express-validator');
+const { check, query } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth } = require('../../utils/auth');
 const { User, Post, Like, Song, Comment } = require('../../db/models');
@@ -10,6 +10,18 @@ const router = express.Router();
 const requireProperAuth = (user, id) => {
     return user.id === id;
 };
+
+const validatePost = [
+    check('title')
+        .exists()
+        .notEmpty()
+        .withMessage('Title is required'),
+    check('body')
+        .exists()
+        .notEmpty()
+        .withMessage('Post content is required'),
+    handleValidationErrors
+];
 
 const postTypes = ['update', 'song'];
 
@@ -32,10 +44,6 @@ router.get('/', async (req, res) => {
     let Posts = []
     posts.forEach(post => {
         Posts.push(post.toJSON());
-    })
-    Posts.forEach(post => {
-        delete post.userId;
-        // delete post.themeId;
     })
 
     let result = { Posts }
@@ -63,10 +71,6 @@ router.get('/current', requireAuth, async (req, res) => {
     let Posts = []
     posts.forEach(post => {
         Posts.push(post.toJSON());
-    })
-    Posts.forEach(post => {
-        delete post.userId;
-        // delete post.themeId;
     })
 
     let result = { Posts }
@@ -147,9 +151,6 @@ router.get('/:postId/likes', async (req, res) => {
     likes.forEach(like => {
         Likes.push(like.toJSON());
     })
-    Likes.forEach(like => {
-        delete like.commentId;
-    })
 
     return res.json({ Likes });
 });
@@ -191,7 +192,7 @@ router.post('/:postId/likes', requireAuth, async (req, res) => {
 
 //Create a Post
 //Auth required: true
-router.post('/', requireAuth, async (req, res) => {
+router.post('/', requireAuth, validatePost, async (req, res) => {
     let { user } = req;
     let { themeId, title, postType, body, pinned, commentsDisabled } = req.body;
     themeId = parseInt(themeId);
@@ -236,7 +237,7 @@ router.post('/', requireAuth, async (req, res) => {
 
 //Update a Post
 //Auth required: true, must be owner of post
-router.put('/:postId', requireAuth, async (req, res) => {
+router.put('/:postId', requireAuth, validatePost, async (req, res) => {
     const { postId } = req.params;
     let { themeId, title, body, pinned, commentsDisabled } = req.body;
     themeId = parseInt(themeId);

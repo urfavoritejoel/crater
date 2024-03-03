@@ -74,6 +74,7 @@ export const createPostThunk = (post) => async (dispatch) => {
             body: JSON.stringify(post),
         });
         if (res.ok) {
+            console.log("res?", res);
             const data = await res.json();
             dispatch(createPost(data));
             return data;
@@ -85,12 +86,12 @@ export const createPostThunk = (post) => async (dispatch) => {
     }
 };
 
-export const putPostThunk = (post) => async (dispatch) => {
+export const putPostThunk = (post, postId) => async (dispatch) => {
     try {
-        const res = await fetch(`/api/posts/${post.id}`, {
+        const res = await csrfFetch(`/api/posts/${postId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: post
+            body: JSON.stringify(post),
         })
 
         if (res.ok) {
@@ -107,7 +108,7 @@ export const putPostThunk = (post) => async (dispatch) => {
 
 export const deletePostThunk = (postId) => async (dispatch) => {
     try {
-        const res = await fetch(`api/posts/${postId}`, {
+        const res = await csrfFetch(`api/posts/${postId}`, {
             method: "DELETE",
         });
         if (res.ok) {
@@ -156,7 +157,7 @@ const postsReducer = (state = initialState, action) => {
             return newState;
         case DELETE_POST:
             newState.allPosts = newState.allPosts.filter(
-                (post) => post.id !== action.payload.postId
+                (post) => post.id !== action.payload
             );
             delete newState.byId[action.payload];
             return newState;
