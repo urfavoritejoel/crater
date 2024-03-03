@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.hasMany(models.Post, { foreignKey: 'userId', onDelete: 'cascade', hooks: true });
       this.hasMany(models.Theme, { foreignKey: 'userId', onDelete: 'cascade', hooks: true });
-      this.hasMany(models.Page, { foreignKey: 'userId', onDelete: 'cascade', hooks: true });
       this.hasMany(models.Song, { foreignKey: 'userId', onDelete: 'cascade', hooks: true });
       this.hasMany(models.Comment, { foreignKey: 'userId', onDelete: 'cascade', hooks: true });
       this.hasMany(models.Like, { foreignKey: 'userId', onDelete: 'cascade', hooks: true });

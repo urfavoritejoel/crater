@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 
-const NewPostFormModal = (pageId) => {
+const NewPostFormModal = (userId) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
@@ -27,7 +27,6 @@ const NewPostFormModal = (pageId) => {
         const newPost = {
             userId: user.id,
             themeId,
-            pageId,
             postType,
             title,
             body,
@@ -35,7 +34,7 @@ const NewPostFormModal = (pageId) => {
             commentsDisabled,
         }
 
-        const res = await dispatch(createPostThunk(newPost, pageId))
+        const res = await dispatch(createPostThunk(newPost))
 
         if (!res.id) {
             setValidationErrors(res);

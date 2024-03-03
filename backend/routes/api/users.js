@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Page, Post, Theme, Comment, Like } = require('../../db/models');
+const { User, Post, Theme, Comment, Like } = require('../../db/models');
 
 const router = express.Router();
 
@@ -66,33 +66,33 @@ router.get('/', (req, res) => {
     } else return res.json({ user: null });
 });
 
-//Get All Pages by userId
-//Auth required: false
-router.get('/:userId/pages', async (req, res) => {
-    const { userId } = req.params;
-    const pages = await Page.findAll({
-        where: {
-            userId: userId
-        },
-        // include: [
-        //     {
-        //         model: Theme
-        //     }
-        // ]
-    })
+// //Get All Pages by userId
+// //Auth required: false
+// router.get('/:userId/pages', async (req, res) => {
+//     const { userId } = req.params;
+//     const pages = await Page.findAll({
+//         where: {
+//             userId: userId
+//         },
+//         // include: [
+//         //     {
+//         //         model: Theme
+//         //     }
+//         // ]
+//     })
 
-    let Pages = []
-    pages.forEach(page => {
-        Pages.push(page.toJSON());
-    })
-    Pages.forEach(page => {
-        delete page.userId;
-        // delete page.defaultThemeId;
-    })
+//     let Pages = []
+//     pages.forEach(page => {
+//         Pages.push(page.toJSON());
+//     })
+//     Pages.forEach(page => {
+//         delete page.userId;
+//         // delete page.defaultThemeId;
+//     })
 
-    let result = { Pages }
-    return res.json(result)
-});
+//     let result = { Pages }
+//     return res.json(result)
+// });
 
 //Get All Posts by userId
 //Auth required: false

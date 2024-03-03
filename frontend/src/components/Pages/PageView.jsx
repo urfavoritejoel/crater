@@ -9,7 +9,7 @@ import "./PageView.css";
 function PageView() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { pageId } = useParams();
+    const { userId } = useParams();
     const user = useSelector((state) => state.session.user);
     const posts = useSelector((state) => state.posts.byUser[userId]);
     console.log(posts);

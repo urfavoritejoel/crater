@@ -53,8 +53,8 @@ function ProfileButton() {
               <li>{user.email}</li>
               <li><button onClick={() => {
                 closeMenu();
-                navigate(`/profile`);
-              }}>View Profile</button></li>
+                navigate(`/users/${user.id}/page`);
+              }}>View Page</button></li>
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>

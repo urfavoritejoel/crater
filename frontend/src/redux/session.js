@@ -1,5 +1,4 @@
 import { csrfFetch } from './csrf';
-import { postPageThunk } from './pages';
 
 //Constants
 const SET_USER = 'session/setUser';
@@ -59,7 +58,6 @@ export const thunkSignup = (user) => async (dispatch) => {
     if (response.ok) {
         const data = await response.json();
         dispatch(setUser(data));
-        dispatch(postPageThunk(page));
     } else if (response.status < 500) {
         const errorMessages = await response.json();
         return errorMessages
