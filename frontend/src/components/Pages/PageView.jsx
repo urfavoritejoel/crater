@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getUserIdPostsThunk } from "../../redux/posts";
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
-import NewPostFormModal from "../Posts";
+import OpenModalButton from "../OpenModalButton/OpenModalButtton";
+import { NewPostFormModal } from "../Posts";
+import { PostComponent } from "../Posts"
 import "./PageView.css";
 
 function PageView() {
@@ -12,7 +13,6 @@ function PageView() {
     const { userId } = useParams();
     const user = useSelector((state) => state.session.user);
     const posts = useSelector((state) => state.posts.byUser[userId]);
-    console.log(posts);
 
     useEffect(() => {
         dispatch(getUserIdPostsThunk(userId));
@@ -20,22 +20,21 @@ function PageView() {
 
     return (
         <div className="pageContainer">
-            {posts?.length === 0 &&
+            {userId === user?.id && posts?.length === 0 &&
 
                 <p>You don&apos;t have any posts yet, get creative!</p>
             }
             {posts?.length > 0 &&
-                <div className="postContainer">
+                <div >
                     {posts.map(post => (
-                        <div key={post.id} >
-                            <h1>{post.title}</h1>
-                            <p>{post.body}</p>
+                        <div className="postContainer" key={post.id} >
+                            <PostComponent post={post} />
                         </div>
                     ))}
                 </div>
             }
-            <OpenModalMenuItem
-                itemText="New Post"
+            <OpenModalButton
+                buttonText="New Post"
                 modalComponent={<NewPostFormModal />}
             />
         </div>

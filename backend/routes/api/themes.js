@@ -25,9 +25,6 @@ router.get('/', async (req, res) => {
     themes.forEach(theme => {
         Themes.push(theme.toJSON());
     })
-    Themes.forEach(theme => {
-        delete theme.userId;
-    })
 
     let result = { Themes }
     return res.json(result)
@@ -46,9 +43,6 @@ router.get('/current', requireAuth, async (req, res) => {
     let Themes = []
     themes.forEach(theme => {
         Themes.push(theme.toJSON());
-    })
-    Themes.forEach(theme => {
-        delete theme.userId;
     })
 
     let result = { Themes }

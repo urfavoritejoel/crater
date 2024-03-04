@@ -25,9 +25,6 @@ router.get('/', async (req, res) => {
     comments.forEach(comment => {
         Comments.push(comment.toJSON());
     })
-    Comments.forEach(comment => {
-        delete comment.userId;
-    })
 
     let result = { Comments }
     return res.json(result)
@@ -77,9 +74,6 @@ router.get('/:commentId/likes', async (req, res) => {
     let Likes = [];
     likes.forEach(like => {
         Likes.push(like.toJSON());
-    })
-    Likes.forEach(like => {
-        delete like.postId;
     })
 
     return res.json({ Likes });

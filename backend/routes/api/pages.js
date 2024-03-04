@@ -28,10 +28,6 @@ router.get('/', async (req, res) => {
     pages.forEach(page => {
         Pages.push(page.toJSON());
     })
-    Pages.forEach(page => {
-        delete page.userId;
-        // delete page.defaultThemeId;
-    })
 
     let result = { Pages }
     return res.json(result)
@@ -55,10 +51,6 @@ router.get('/current', requireAuth, async (req, res) => {
     let Pages = []
     pages.forEach(page => {
         Pages.push(page.toJSON());
-    })
-    Pages.forEach(page => {
-        delete page.userId;
-        // delete page.defaultThemeId;
     })
 
     let result = { Pages }

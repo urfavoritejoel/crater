@@ -25,9 +25,6 @@ router.get('/', async (req, res) => {
     likes.forEach(like => {
         Likes.push(like.toJSON());
     })
-    Likes.forEach(like => {
-        delete like.userId;
-    })
 
     let result = { Likes }
     return res.json(result)

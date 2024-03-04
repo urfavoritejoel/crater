@@ -66,34 +66,6 @@ router.get('/', (req, res) => {
     } else return res.json({ user: null });
 });
 
-// //Get All Pages by userId
-// //Auth required: false
-// router.get('/:userId/pages', async (req, res) => {
-//     const { userId } = req.params;
-//     const pages = await Page.findAll({
-//         where: {
-//             userId: userId
-//         },
-//         // include: [
-//         //     {
-//         //         model: Theme
-//         //     }
-//         // ]
-//     })
-
-//     let Pages = []
-//     pages.forEach(page => {
-//         Pages.push(page.toJSON());
-//     })
-//     Pages.forEach(page => {
-//         delete page.userId;
-//         // delete page.defaultThemeId;
-//     })
-
-//     let result = { Pages }
-//     return res.json(result)
-// });
-
 //Get All Posts by userId
 //Auth required: false
 router.get('/:userId/posts', async (req, res) => {
@@ -112,10 +84,6 @@ router.get('/:userId/posts', async (req, res) => {
     let Posts = []
     posts.forEach(post => {
         Posts.push(post.toJSON());
-    })
-    Posts.forEach(post => {
-        delete post.userId;
-        // delete post.themeId;
     })
 
     let result = { Posts }
