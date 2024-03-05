@@ -9,6 +9,7 @@ function DeletePostModal({ post }) {
 
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
+
     const handleConfirmSubmit = (e) => {
         e.preventDefault();
         setErrors({});
@@ -22,6 +23,7 @@ function DeletePostModal({ post }) {
                 }
             });
     };
+
     const handleCancelSubmit = (e) => {
         e.preventDefault();
         closeModal()

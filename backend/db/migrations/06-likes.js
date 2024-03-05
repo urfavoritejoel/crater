@@ -1,7 +1,7 @@
 'use strict';
 
 let options = {};
-options.tableName = 'Comments';
+options.tableName = 'Likes';
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable(options, {
+    await queryInterface.createTable('Likes', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -30,11 +30,13 @@ module.exports = {
           model: 'Posts',
           key: 'id'
         },
-        allowNull: false,
       },
-      body: {
-        type: Sequelize.STRING,
-        allowNull: false,
+      commentId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Comments',
+          key: 'id'
+        },
       },
       createdAt: {
         allowNull: false,
