@@ -24,6 +24,10 @@ module.exports = {
         },
         allowNull: false,
       },
+      userUsername: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       postId: {
         type: Sequelize.INTEGER,
         references: {

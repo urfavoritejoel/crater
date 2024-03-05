@@ -15,14 +15,14 @@ function PageView() {
     const user = useSelector((state) => state.session.user);
     const posts = useSelector((state) => state.posts.byUser[userId]);
 
+    console.log(userId);
     useEffect(() => {
         dispatch(getUserIdPostsThunk(userId));
-        dispatch(getAllCommentsThunk());
     }, [dispatch, userId]);
 
     return (
         <div className="pageContainer">
-            {userId === user?.id && posts?.length === 0 &&
+            {posts?.length === 0 && userId === `${user.id}` &&
 
                 <p>You don&apos;t have any posts yet, get creative!</p>
             }

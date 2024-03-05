@@ -1,20 +1,14 @@
 import { useState } from "react";
-import { putPostThunk } from "../../redux/posts";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
+import { putCommentThunk } from "../../redux/comments";
 
-const EditPostFormModal = ({ post }) => {
-    let postId = post.id;
+const EditCommentModal = ({ comment }) => {
+    let commentId = comment?.id;
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
-    // Temporary consts until later features implemented
-    const themeId = 1;
-    const postType = "update";
-    const pinned = false;
-    const commentsDisabled = false;
 
-    const [title, setTitle] = useState(post.title);
-    const [body, setBody] = useState(post.body);
+    const [body, setBody] = useState(comment?.body);
     const [validationErrors, setValidationErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const { closeModal } = useModal();
@@ -23,16 +17,11 @@ const EditPostFormModal = ({ post }) => {
         e.preventDefault();
         setHasSubmitted(true);
 
-        const updatedPost = {
-            themeId,
-            postType,
-            title,
+        const updatedComment = {
             body,
-            pinned,
-            commentsDisabled,
         }
 
-        const res = await dispatch(putPostThunk(updatedPost, postId, user.id));
+        const res = await dispatch(putCommentThunk(updatedComment, commentId, user.id));
 
         if (res.errors) {
             setValidationErrors(res.errors);
@@ -53,19 +42,9 @@ const EditPostFormModal = ({ post }) => {
                 <h1>Edit Post</h1>
             </div>
             <form onSubmit={handleSubmit} className="formContainer">
-                <label>Title:
-                    <input
-                        type="text"
-                        placeholder="Title"
-                        value={title}
-                        onChange={e => setTitle(e.target.value)}
-                    />
-                </label>
-                {hasSubmitted && validationErrors.title &&
-                    <p>{validationErrors.title}</p>}
-                <label>Post:
+                <label>Comment Text:
                     <textarea
-                        placeholder="Give us an update..."
+                        placeholder="Comment..."
                         value={body}
                         onChange={e => setBody(e.target.value)}
                     />
@@ -80,4 +59,4 @@ const EditPostFormModal = ({ post }) => {
 
 };
 
-export default EditPostFormModal;
+export default EditCommentModal;

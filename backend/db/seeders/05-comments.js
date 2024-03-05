@@ -19,21 +19,25 @@ module.exports = {
         return queryInterface.bulkInsert(options, [
             {
                 userId: 1,
+                userUsername: 'Demo-lition',
                 postId: 2,
                 body: "body",
             },
             {
                 userId: 1,
+                userUsername: 'Demo-lition',
                 postId: 2,
                 body: "body2",
             },
             {
                 userId: 2,
+                userUsername: 'Demo-lition2',
                 postId: 3,
                 body: "body2",
             },
             {
                 userId: 3,
+                userUsername: 'Demo-lition3',
                 postId: 1,
                 body: "body3",
             },

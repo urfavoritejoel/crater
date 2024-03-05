@@ -1,6 +1,10 @@
 import { csrfFetch } from './csrf';
+import { getUserIdPostsThunk } from './posts';
 
 const GET_ALL_COMMENTS = 'comments/getAll';
+const POST_COMMENT = 'comments/post';
+const PUT_COMMENT = 'comments/put';
+const DELETE_COMMENT = 'comments/delete';
 
 
 const getAllComments = (comments) => ({
@@ -8,17 +12,91 @@ const getAllComments = (comments) => ({
     payload: comments
 });
 
+const postComment = (comment) => ({
+    type: POST_COMMENT,
+    payload: comment
+});
+
+const putComment = (comment) => ({
+    type: PUT_COMMENT,
+    payload: comment
+})
+
+const deleteComment = (commentId) => ({
+    type: DELETE_COMMENT,
+    payload: commentId
+});
+
 
 export const getAllCommentsThunk = () => async (dispatch) => {
     const res = await csrfFetch('/api/comments');
     const data = await res.json();
     dispatch(getAllComments(data.Comments));
-    console.log(data.Comments);
     return data.Comments;
 };
 
+export const postCommentThunk = (comment, postId, userId) => async (dispatch) => {
+    try {
+        const res = await csrfFetch(`/api/posts/${postId}/comments`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(comment),
+        });
+        if (res.ok) {
+            const data = await res.json();
+            dispatch(postComment(data));
+            dispatch(getUserIdPostsThunk(userId));
+            return data;
+        }
+        throw res;
+    } catch (e) {
+        console.log(e);
+        const data = await e.json();
+        return data;
+    }
+};
 
-const initialState = { allComments: [], byId: {}, byPost: {} };
+export const putCommentThunk = (comment, commentId, userId) => async (dispatch) => {
+    try {
+        const res = await csrfFetch(`/api/comments/${commentId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(comment),
+        })
+
+        if (res.ok) {
+            const data = await res.json();
+            dispatch(putComment(data));
+            dispatch(getUserIdPostsThunk(userId));
+            return data
+        }
+        throw res;
+    } catch (e) {
+        const data = await e.json();
+        return data;
+    }
+};
+
+export const deleteCommentThunk = (commentId, userId) => async (dispatch) => {
+    try {
+        const res = await csrfFetch(`/api/comments/${commentId}`, {
+            method: "DELETE",
+        });
+        if (res.ok) {
+            const data = await res.json();
+            dispatch(deleteComment(commentId));
+            dispatch(getUserIdPostsThunk(userId))
+            return data;
+        }
+        throw res;
+    } catch (e) {
+        const data = await e.json();
+        return data;
+    }
+};
+
+
+const initialState = { allComments: [], byId: {} };
 
 const commentsReducer = (state = initialState, action) => {
     let newState = { ...state };
@@ -28,10 +106,23 @@ const commentsReducer = (state = initialState, action) => {
             action.payload.forEach(comment => {
                 newState.byId[comment.id] = comment;
             });
-            action.payload.forEach(comment => {
-                if (newState.byPost[comment.postId] === undefined) newState.byPost[comment.postId] = [];
-                // if (newState.byPost[comment.postId]) .push(comment)
-            });
+            return newState;
+        case POST_COMMENT:
+            newState.allComments.push(action.payload);
+            newState.byId[action.payload.id] = action.payload;
+            return newState;
+        case PUT_COMMENT:
+            const index = newState.allComments.findIndex(
+                (post) => post.id === action.payload.id
+            );
+            newState.allComments[index] = action.payload;
+            newState.byId[action.payload.id] = action.payload;
+            return newState;
+        case DELETE_COMMENT:
+            newState.allComments = newState.allComments.filter(
+                (post) => post.id !== action.payload
+            );
+            delete newState.byId[action.payload];
             return newState;
         default:
             return state;
