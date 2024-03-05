@@ -23,6 +23,11 @@ module.exports = {
                 body: "body",
             },
             {
+                userId: 1,
+                postId: 2,
+                body: "body2",
+            },
+            {
                 userId: 2,
                 postId: 3,
                 body: "body2",

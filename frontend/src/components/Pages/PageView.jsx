@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getUserIdPostsThunk } from "../../redux/posts";
+import { getAllCommentsThunk } from "../../redux/comments";
 import OpenModalButton from "../OpenModalButton/OpenModalButtton";
 import { NewPostFormModal } from "../Posts";
 import { PostComponent } from "../Posts"
@@ -16,6 +17,7 @@ function PageView() {
 
     useEffect(() => {
         dispatch(getUserIdPostsThunk(userId));
+        dispatch(getAllCommentsThunk());
     }, [dispatch, userId]);
 
     return (
