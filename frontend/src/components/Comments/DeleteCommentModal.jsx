@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../context/Modal';
-import { deletePostThunk, getCurrentUserPostsThunk } from '../../redux/posts';
+import { deleteCommentThunk } from '../../redux/comments';
 
-function DeletePostModal({ post }) {
+function DeleteCommentModal({ commentId }) {
+    console.log("??", commentId);
     const dispatch = useDispatch();
     const user = useSelector((state) => state.session.user);
-    //const sessionUser = useSelector((state) => state.session.user);
 
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
@@ -15,7 +15,7 @@ function DeletePostModal({ post }) {
         e.preventDefault();
         setErrors({});
 
-        return dispatch(deletePostThunk(post.id, user.id))
+        return dispatch(deleteCommentThunk(commentId, user.id))
             .then(closeModal)
             .catch(async (res) => {
                 //const data = await res.json();
@@ -32,35 +32,35 @@ function DeletePostModal({ post }) {
 
 
     return (
-        <div className='deletePost modalContainer'>
-            <h1>Confirm Delete</h1>
+        <div className='deleteComment modalContainer'>
+            <h1>Confirm Delete Comment</h1>
 
             {errors.message && (
                 <p className=''>{errors.message}</p>
             )}
 
             <p>
-                Are you sure you want to remove this post?
+                Are you sure you want to remove this comment?
             </p>
 
             <button
-                className='deletePost confirmButton'
+                className='deleteComment confirmButton'
                 type='button'
                 onClick={handleConfirmSubmit}
             >
-                Yes (Delete Post)
+                Yes (Delete Comment)
             </button>
 
             <button
-                className='deletePost cancelButton'
+                className='deleteComment cancelButton'
                 type='button'
                 onClick={handleCancelSubmit}
             >
-                No (Keep Post)
+                No (Keep Comment)
             </button>
 
         </div>
     )
 }
 
-export default DeletePostModal;
+export default DeleteCommentModal;

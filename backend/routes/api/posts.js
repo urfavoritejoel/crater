@@ -23,6 +23,14 @@ const validatePost = [
     handleValidationErrors
 ];
 
+const validateComment = [
+    check('body')
+        .exists()
+        .notEmpty()
+        .withMessage('Comment text is required'),
+    handleValidationErrors
+];
+
 const postTypes = ['update', 'song'];
 
 //Get all Posts
@@ -33,12 +41,16 @@ router.get('/', async (req, res) => {
             {
                 model: User
             },
-            // {
-            //     model: Theme
-            // },
+            {
+                model: Comment
+            },
             {
                 model: Song
             }
+        ],
+        order: [
+            ['createdAt', 'DESC'],
+            [Comment, 'createdAt', 'DESC']
         ]
     });
     let Posts = []
@@ -59,12 +71,16 @@ router.get('/current', requireAuth, async (req, res) => {
             userId: user.id
         },
         include: [
-            // {
-            //     model: Theme
-            // },
+            {
+                model: Comment,
+            },
             {
                 model: Song
             }
+        ],
+        order: [
+            ['createdAt', 'DESC'],
+            [Comment, 'createdAt', 'DESC']
         ]
     })
 
@@ -103,7 +119,7 @@ router.get('/:postId/comments', async (req, res) => {
 
 //Add a comment to a post
 //Auth required: true
-router.post('/:postId/comments', requireAuth, async (req, res) => {
+router.post('/:postId/comments', requireAuth, validateComment, async (req, res) => {
     const { user } = req;
     let { postId } = req.params;
     postId = parseInt(postId)
@@ -118,6 +134,7 @@ router.post('/:postId/comments', requireAuth, async (req, res) => {
     };
     const comment = await Comment.create({
         userId: user.id,
+        userUsername: user.username,
         postId,
         body
     });

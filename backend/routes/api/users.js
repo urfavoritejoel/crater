@@ -75,9 +75,13 @@ router.get('/:userId/posts', async (req, res) => {
             userId: userId
         },
         include: [
-            // {
-            //     model: Theme
-            // }
+            {
+                model: Comment,
+            }
+        ],
+        order: [
+            ['createdAt', 'DESC'],
+            [Comment, 'createdAt', 'DESC']
         ]
     })
 

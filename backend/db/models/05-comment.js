@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       allowNull: false
     },
+    userUsername: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     postId: {
       type: DataTypes.INTEGER,
       references: {

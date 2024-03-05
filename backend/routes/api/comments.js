@@ -11,6 +11,14 @@ const requireProperAuth = (user, id) => {
     return user.id === id;
 };
 
+const validateComment = [
+    check('body')
+        .exists()
+        .notEmpty()
+        .withMessage('Comment text is required'),
+    handleValidationErrors
+];
+
 //Get All Comments
 //Auth required: false
 router.get('/', async (req, res) => {
@@ -116,7 +124,7 @@ router.post('/:commentId/likes', requireAuth, async (req, res) => {
 
 //Update a comment
 //Auth required: true
-router.put('/:commentId', requireAuth, async (req, res) => {
+router.put('/:commentId', requireAuth, validateComment, async (req, res) => {
     const { user } = req;
     let { commentId } = req.params;
     let { body } = req.body;

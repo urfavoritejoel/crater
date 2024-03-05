@@ -1,20 +1,13 @@
 import { useState } from "react";
-import { createPostThunk, getCurrentUserPostsThunk } from "../../redux/posts";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { useModal } from "../../context/Modal";
+import { postCommentThunk } from "../../redux/comments";
 
-const NewPostFormModal = () => {
-    const navigate = useNavigate();
+const NewCommentFormModal = ({ postId, setShowComments }) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
-    // Temporary consts until later features implemented
-    const themeId = 1;
-    const postType = "update";
-    const pinned = false;
-    const commentsDisabled = false;
+    const userUsername = user.username;
 
-    const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [validationErrors, setValidationErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -24,56 +17,50 @@ const NewPostFormModal = () => {
         e.preventDefault();
         setHasSubmitted(true);
 
-        const newPost = {
+        const newComment = {
             userId: user.id,
-            themeId,
-            postType,
-            title,
+            userUsername,
+            postId,
             body,
-            pinned,
-            commentsDisabled,
         }
 
-        const res = await dispatch(createPostThunk(newPost, user.id));
+        const res = await dispatch(postCommentThunk(newComment, postId, user.id));
 
         if (res.errors) {
             setValidationErrors(res.errors);
         } else {
             setHasSubmitted(false);
+            setShowComments(true);
             closeModal();
         }
     };
 
+    const cancelSubmit = (e) => {
+        e.preventDefault();
+        closeModal();
+    }
+
     return (
         <div className="pageContainer">
             <div className="header">
-                <h1>New Post</h1>
+                <h1>Add Comment</h1>
             </div>
             <form onSubmit={handleSubmit} className="formContainer">
-                <label>Title:
-                    <input
-                        type="text"
-                        placeholder="Title"
-                        value={title}
-                        onChange={e => setTitle(e.target.value)}
-                    />
-                </label>
-                {hasSubmitted && validationErrors.title &&
-                    <p>{validationErrors.title}</p>}
-                <label>Post:
+                <label>Comment Text:
                     <textarea
-                        placeholder="Give us an update..."
+                        placeholder="Comment..."
                         value={body}
                         onChange={e => setBody(e.target.value)}
                     />
                 </label>
                 {hasSubmitted && validationErrors.body &&
                     <p>{validationErrors.body}</p>}
-                <button>Submit</button>
+                <button onClick={handleSubmit}>Submit</button>
+                <button onClick={cancelSubmit}>Cancel</button>
             </form>
         </div>
     )
 
 };
 
-export default NewPostFormModal;
+export default NewCommentFormModal;

@@ -66,7 +66,7 @@ export const getUserIdPostsThunk = (userId) => async (dispatch) => {
     return data.Posts;
 };
 
-export const createPostThunk = (post) => async (dispatch) => {
+export const createPostThunk = (post, userId) => async (dispatch) => {
     try {
         const res = await csrfFetch(`/api/posts`, {
             method: "POST",
@@ -74,9 +74,9 @@ export const createPostThunk = (post) => async (dispatch) => {
             body: JSON.stringify(post),
         });
         if (res.ok) {
-            console.log("res?", res);
             const data = await res.json();
             dispatch(createPost(data));
+            dispatch(getUserIdPostsThunk(userId));
             return data;
         }
         throw res;
@@ -86,7 +86,7 @@ export const createPostThunk = (post) => async (dispatch) => {
     }
 };
 
-export const putPostThunk = (post, postId) => async (dispatch) => {
+export const putPostThunk = (post, postId, userId) => async (dispatch) => {
     try {
         const res = await csrfFetch(`/api/posts/${postId}`, {
             method: "PUT",
@@ -96,7 +96,8 @@ export const putPostThunk = (post, postId) => async (dispatch) => {
 
         if (res.ok) {
             const data = await res.json();
-            dispatch(putPost(data))
+            dispatch(putPost(data));
+            dispatch(getCurrentUserPostsThunk(userId));
             return data
         }
         throw res;
@@ -106,14 +107,15 @@ export const putPostThunk = (post, postId) => async (dispatch) => {
     }
 };
 
-export const deletePostThunk = (postId) => async (dispatch) => {
+export const deletePostThunk = (postId, userId) => async (dispatch) => {
     try {
-        const res = await csrfFetch(`api/posts/${postId}`, {
+        const res = await csrfFetch(`/api/posts/${postId}`, {
             method: "DELETE",
         });
         if (res.ok) {
             const data = await res.json();
             dispatch(deletePost(postId));
+            dispatch(getCurrentUserPostsThunk(userId))
             return data;
         }
         throw res;
