@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { updateUserThunk } from '../../redux/session';
 import { useDispatch, useSelector } from 'react-redux';
+import { getAllPostsThunk } from '../../redux/posts';
+import { PostComponent } from '../Posts';
+import { NavLink } from 'react-router-dom';
 
 const Splash = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.session.user)
+  const user = useSelector((state) => state.session.user);
+  const posts = useSelector(state => state.posts.allPosts);
+  const otherPosts = posts.filter(post => post.userId !== user.id);
+
+  useEffect(() => {
+    dispatch(getAllPostsThunk());
+  }, [dispatch]);
 
   //image url to send to aws
   // const [imgUrl, setImgUrl] = useState("");
@@ -64,6 +73,16 @@ const Splash = () => {
           )}
         </div>
       </form> */}
+      <h2>Discover other Creators:</h2>
+      {otherPosts.map(post => (
+        <div className={'postContainer'} key={post.id}>
+          <h2>{post?.title}</h2>
+          <p>{post?.body}</p>
+          <NavLink to={`/users/${post?.User?.id}/page`}>
+            {post?.User?.username}
+          </NavLink>
+        </div>
+      ))}
     </div>
   );
 }

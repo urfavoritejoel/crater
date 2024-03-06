@@ -15,7 +15,6 @@ function PageView() {
     const user = useSelector((state) => state.session.user);
     const posts = useSelector((state) => state.posts.byUser[userId]);
 
-    console.log(userId);
     useEffect(() => {
         dispatch(getUserIdPostsThunk(userId));
     }, [dispatch, userId]);
