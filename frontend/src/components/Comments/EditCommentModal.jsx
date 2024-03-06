@@ -8,7 +8,6 @@ const EditCommentModal = ({ comment, userId }) => {
     let commentId = comment?.id;
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
-    console.log("rrr", userId);
 
     const [body, setBody] = useState(comment?.body);
     const [validationErrors, setValidationErrors] = useState({});
