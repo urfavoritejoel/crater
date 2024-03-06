@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import { deleteCommentThunk } from '../../redux/comments';
+import { getUserIdPostsThunk } from '../../redux/posts';
 
-function DeleteCommentModal({ commentId }) {
+function DeleteCommentModal({ commentId, userId }) {
     console.log("??", commentId);
     const dispatch = useDispatch();
     const user = useSelector((state) => state.session.user);
@@ -11,18 +12,19 @@ function DeleteCommentModal({ commentId }) {
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
 
-    const handleConfirmSubmit = (e) => {
+    const handleConfirmSubmit = async (e) => {
         e.preventDefault();
         setErrors({});
 
-        return dispatch(deleteCommentThunk(commentId, user.id))
-            .then(closeModal)
-            .catch(async (res) => {
-                //const data = await res.json();
-                if (res && res.errors) {
-                    setErrors(res.errors);
-                }
-            });
+        const res = await dispatch(deleteCommentThunk(commentId, user.id))
+            .then(dispatch(getUserIdPostsThunk(userId)))
+
+        if (res.errors) {
+            setErrors(res.errors);
+        } else {
+            await dispatch(getUserIdPostsThunk(userId));
+            closeModal();
+        }
     };
 
     const handleCancelSubmit = (e) => {

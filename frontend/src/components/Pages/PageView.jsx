@@ -35,18 +35,18 @@ function PageView() {
             }
             {posts?.length === 0 && !user &&
 
-                <p>This creator doesn't have any posts yet!</p>
+                <p>This creator doesn&apos;t have any posts yet!</p>
             }
             {posts?.length > 0 &&
                 <div >
                     {posts.map(post => (
                         <div className="postContainer" key={post.id} >
-                            <PostComponent post={post} />
+                            <PostComponent post={post} userId={userId} />
                         </div>
                     ))}
                 </div>
             }
-            {user &&
+            {`${user?.id}` === userId &&
                 <OpenModalButton
                     buttonText="New Post"
                     modalComponent={<NewPostFormModal />}

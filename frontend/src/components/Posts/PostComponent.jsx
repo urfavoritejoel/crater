@@ -6,7 +6,7 @@ import DeletePostModal from "./DeletePostModal";
 import CommentComponent from "../Comments/CommentComponent";
 import NewCommentFormModal from "../Comments/NewCommentFormModal";
 
-function PostComponent({ post }) {
+function PostComponent({ post, userId }) {
     const user = useSelector((state) => state.session.user);
     const comments = post?.Comments;
 
@@ -27,7 +27,7 @@ function PostComponent({ post }) {
             {user?.id !== undefined &&
                 <OpenModalButton
                     buttonText="Add Comment"
-                    modalComponent={<NewCommentFormModal postId={post.id} setShowComments={setShowComments} />}
+                    modalComponent={<NewCommentFormModal postId={post.id} userId={userId} setShowComments={setShowComments} />}
                 />
             }
             {comments?.length > 0 &&
@@ -43,18 +43,18 @@ function PostComponent({ post }) {
                 <>
                     <OpenModalButton
                         buttonText="Edit Post"
-                        modalComponent={<EditPostFormModal post={post} />}
+                        modalComponent={<EditPostFormModal post={post} userId={userId} />}
                     />
                     <OpenModalButton
                         buttonText="Delete Post"
-                        modalComponent={<DeletePostModal post={post} />}
+                        modalComponent={<DeletePostModal post={post} userId={userId} />}
                     />
                 </>
             }
             {comments?.length > 0 && showComments === true &&
                 <div>
                     {post.Comments.map(comment => (
-                        <div key={comment.id}><CommentComponent comment={comment} /></div>
+                        <div key={comment.id}><CommentComponent comment={comment} userId={userId} /></div>
                     ))}
                 </div>
             }
