@@ -46,6 +46,13 @@ router.get('/', (req, res) => {
     } else return res.json({ user: null });
 });
 
+//Get all users
+router.get('/all', async (req, res) => {
+    const users = await User.findAll();
+
+    return res.json(users);
+})
+
 //Get All Posts by userId
 //Auth required: false
 router.get('/:userId/posts', async (req, res) => {

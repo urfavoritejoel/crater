@@ -9,7 +9,7 @@ function CommentComponent({ comment }) {
         <>
             <p>{comment.body}</p>
             <p> - {comment.userUsername}</p>
-            {comment.userId === user.id &&
+            {user && comment.userId === user.id &&
                 <>
                     <OpenModalButton
                         buttonText="Edit Comment"

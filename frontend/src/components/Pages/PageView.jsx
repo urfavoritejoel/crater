@@ -7,23 +7,35 @@ import OpenModalButton from "../OpenModalButton/OpenModalButtton";
 import { NewPostFormModal } from "../Posts";
 import { PostComponent } from "../Posts"
 import "./PageView.css";
+import { getAllUsersThunk } from "../../redux/users";
+import { NotFound } from '../NotFound'
 
 function PageView() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { userId } = useParams();
     const user = useSelector((state) => state.session.user);
+    const idUser = useSelector((state) => state.users.byId[userId]);
     const posts = useSelector((state) => state.posts.byUser[userId]);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
         dispatch(getUserIdPostsThunk(userId));
+        dispatch(getAllUsersThunk())
+        setIsLoaded(true);
     }, [dispatch, userId]);
+
+    if (isLoaded && !idUser) return <NotFound />
 
     return (
         <div className="pageContainer">
-            {posts?.length === 0 && userId === `${user.id}` &&
+            {posts?.length === 0 && userId === `${user?.id}` &&
 
                 <p>You don&apos;t have any posts yet, get creative!</p>
+            }
+            {posts?.length === 0 && !user &&
+
+                <p>This creator doesn't have any posts yet!</p>
             }
             {posts?.length > 0 &&
                 <div >
@@ -34,10 +46,12 @@ function PageView() {
                     ))}
                 </div>
             }
-            <OpenModalButton
-                buttonText="New Post"
-                modalComponent={<NewPostFormModal />}
-            />
+            {user &&
+                <OpenModalButton
+                    buttonText="New Post"
+                    modalComponent={<NewPostFormModal />}
+                />
+            }
         </div>
     )
 }

@@ -24,7 +24,7 @@ function PostComponent({ post }) {
         <>
             <h1>{post?.title}</h1>
             <p>{post?.body}</p>
-            {user.id !== undefined &&
+            {user?.id !== undefined &&
                 <OpenModalButton
                     buttonText="Add Comment"
                     modalComponent={<NewCommentFormModal postId={post.id} setShowComments={setShowComments} />}
