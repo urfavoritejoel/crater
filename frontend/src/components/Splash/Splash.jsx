@@ -9,7 +9,8 @@ const Splash = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
   const posts = useSelector(state => state.posts.allPosts);
-  const otherPosts = posts.filter(post => post.userId !== user.id);
+  let otherPosts = [];
+  if (user) otherPosts = posts.filter(post => post.userId !== user.id);
 
   useEffect(() => {
     dispatch(getAllPostsThunk());
@@ -73,16 +74,34 @@ const Splash = () => {
           )}
         </div>
       </form> */}
-      <h2>Discover other Creators:</h2>
-      {otherPosts.map(post => (
-        <div className={'postContainer'} key={post.id}>
-          <h2>{post?.title}</h2>
-          <p>{post?.body}</p>
-          <NavLink to={`/users/${post?.User?.id}/page`}>
-            {post?.User?.username}
-          </NavLink>
-        </div>
-      ))}
+
+      {user ?
+        <>
+          <h2>Discover other Creators:</h2>
+          {otherPosts.map(post => (
+            <div className={'postContainer'} key={post.id}>
+              <h2>{post?.title}</h2>
+              <p>{post?.body}</p>
+              <NavLink to={`/users/${post?.User?.id}/page`}>
+                {post?.User?.username}
+              </NavLink>
+            </div>
+          ))}
+        </>
+        :
+        <>
+          <h2>Discover Creators:</h2>
+          {posts.map(post => (
+            <div className={'postContainer'} key={post.id}>
+              <h2>{post?.title}</h2>
+              <p>{post?.body}</p>
+              <NavLink to={`/users/${post?.User?.id}/page`}>
+                {post?.User?.username}
+              </NavLink>
+            </div>
+          ))}
+        </>
+      }
     </div>
   );
 }

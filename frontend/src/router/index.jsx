@@ -6,6 +6,7 @@ import PageView from '../components/Pages/PageView';
 import Layout from './Layout';
 import Splash from '../components/Splash';
 import NewPostForm from '../components/Posts/NewPostFormModal';
+import NotFound from '../components/NotFound/NotFound';
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
       {
         path: "posts/new",
         element: <NewPostForm />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },
