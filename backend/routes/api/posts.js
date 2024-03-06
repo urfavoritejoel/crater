@@ -1,37 +1,13 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
-const { check, query } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth } = require('../../utils/auth');
 const { User, Post, Like, Song, Comment } = require('../../db/models');
+const { validateComment, postTypes, validatePost } = require('../../utils/routeValidators');
 
 const router = express.Router();
 
 const requireProperAuth = (user, id) => {
     return user.id === id;
 };
-
-const validatePost = [
-    check('title')
-        .exists()
-        .notEmpty()
-        .withMessage('Title is required'),
-    check('body')
-        .exists()
-        .notEmpty()
-        .withMessage('Post content is required'),
-    handleValidationErrors
-];
-
-const validateComment = [
-    check('body')
-        .exists()
-        .notEmpty()
-        .withMessage('Comment text is required'),
-    handleValidationErrors
-];
-
-const postTypes = ['update', 'song'];
 
 //Get all Posts
 //Auth required: false

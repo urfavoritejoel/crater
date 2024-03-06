@@ -1,23 +1,16 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+// const { check } = require('express-validator');
+// const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User, Comment, Like } = require('../../db/models');
+const { validateComment } = require('../../utils/routeValidators');
 
 const router = express.Router();
 
 const requireProperAuth = (user, id) => {
     return user.id === id;
 };
-
-const validateComment = [
-    check('body')
-        .exists()
-        .notEmpty()
-        .withMessage('Comment text is required'),
-    handleValidationErrors
-];
 
 //Get All Comments
 //Auth required: false

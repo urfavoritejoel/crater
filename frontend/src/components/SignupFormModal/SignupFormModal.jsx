@@ -23,7 +23,7 @@ function SignupFormModal() {
       });
     }
 
-    const serverResponse = await dispatch(
+    const res = await dispatch(
       thunkSignup({
         email,
         username,
@@ -31,8 +31,9 @@ function SignupFormModal() {
       })
     );
 
-    if (serverResponse) {
-      setErrors(serverResponse);
+    if (res && res?.errors) {
+      setErrors(res.errors);
+      console.log(res.errors);
     } else {
       closeModal();
     }
@@ -42,7 +43,7 @@ function SignupFormModal() {
     <>
       <h1>Sign Up</h1>
       {errors.server && <p>{errors.server}</p>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} noValidate={true}>
         <label>
           Email
           <input

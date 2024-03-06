@@ -6,7 +6,7 @@ import "./LoginForm.css";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
+  const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
@@ -14,15 +14,13 @@ function LoginFormModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const serverResponse = await dispatch(
-      thunkLogin({
-        email,
-        password,
-      })
+    const res = await dispatch(
+      thunkLogin(credential, password)
     );
 
-    if (serverResponse) {
-      setErrors(serverResponse);
+    if (res && res?.errors) {
+      setErrors(res.errors);
+      console.log(res.errors);
     } else {
       closeModal();
     }
@@ -31,17 +29,17 @@ function LoginFormModal() {
   return (
     <>
       <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} noValidate={true}>
         <label>
-          Email
+          Username or Email
           <input
             type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={credential}
+            onChange={(e) => setCredential(e.target.value)}
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        {errors.credential && <p>{errors.credential}</p>}
         <label>
           Password
           <input
@@ -53,6 +51,12 @@ function LoginFormModal() {
         </label>
         {errors.password && <p>{errors.password}</p>}
         <button type="submit">Log In</button>
+        <button type='submit' className='demoUser' onClick={() => {
+          setCredential('demo@user.io')
+          setPassword('password')
+        }}>
+          Demo User
+        </button>
       </form>
     </>
   );

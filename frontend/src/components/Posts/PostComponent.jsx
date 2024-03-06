@@ -10,8 +10,6 @@ function PostComponent({ post }) {
     const user = useSelector((state) => state.session.user);
     const comments = post?.Comments;
 
-    console.log("length?", comments.length);
-
     const [showComments, setShowComments] = useState(false);
 
     const toggleShowComments = () => {
