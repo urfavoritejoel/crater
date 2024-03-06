@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { postCommentThunk } from "../../redux/comments";
+import { getUserIdPostsThunk } from "../../redux/posts";
 
-const NewCommentFormModal = ({ postId, setShowComments }) => {
+const NewCommentFormModal = ({ postId, setShowComments, userId }) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
     const userUsername = user.username;
@@ -30,6 +31,7 @@ const NewCommentFormModal = ({ postId, setShowComments }) => {
             setValidationErrors(res.errors);
         } else {
             setHasSubmitted(false);
+            await dispatch(getUserIdPostsThunk(userId));
             setShowComments(true);
             closeModal();
         }

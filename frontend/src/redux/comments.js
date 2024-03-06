@@ -45,7 +45,6 @@ export const postCommentThunk = (comment, postId, userId) => async (dispatch) =>
         if (res.ok) {
             const data = await res.json();
             dispatch(postComment(data));
-            dispatch(getUserIdPostsThunk(userId));
             return data;
         }
         throw res;
@@ -67,7 +66,6 @@ export const putCommentThunk = (comment, commentId, userId) => async (dispatch) 
         if (res.ok) {
             const data = await res.json();
             dispatch(putComment(data));
-            dispatch(getUserIdPostsThunk(userId));
             return data
         }
         throw res;
@@ -85,7 +83,6 @@ export const deleteCommentThunk = (commentId, userId) => async (dispatch) => {
         if (res.ok) {
             const data = await res.json();
             dispatch(deleteComment(commentId));
-            dispatch(getUserIdPostsThunk(userId))
             return data;
         }
         throw res;
@@ -108,7 +105,8 @@ const commentsReducer = (state = initialState, action) => {
             });
             return newState;
         case POST_COMMENT:
-            newState.allComments.push(action.payload);
+            // const newAllComments = [...newState.allComments]
+            newState.allComments = [...newState.allComments, action.payload];
             newState.byId[action.payload.id] = action.payload;
             return newState;
         case PUT_COMMENT:
@@ -119,9 +117,10 @@ const commentsReducer = (state = initialState, action) => {
             newState.byId[action.payload.id] = action.payload;
             return newState;
         case DELETE_COMMENT:
-            newState.allComments = newState.allComments.filter(
+            const newComments = newState.allComments.filter(
                 (post) => post.id !== action.payload
             );
+            newState.allComments = newComments;
             delete newState.byId[action.payload];
             return newState;
         default:

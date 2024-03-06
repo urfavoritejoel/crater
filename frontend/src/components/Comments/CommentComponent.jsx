@@ -3,7 +3,7 @@ import OpenModalButton from "../OpenModalButton/OpenModalButtton";
 import DeleteCommentModal from "./DeleteCommentModal";
 import EditCommentModal from "./EditCommentModal";
 
-function CommentComponent({ comment }) {
+function CommentComponent({ comment, userId }) {
     const user = useSelector((state) => state.session.user);
     return (
         <>
@@ -13,11 +13,11 @@ function CommentComponent({ comment }) {
                 <>
                     <OpenModalButton
                         buttonText="Edit Comment"
-                        modalComponent={<EditCommentModal comment={comment} />}
+                        modalComponent={<EditCommentModal comment={comment} userId={userId} />}
                     />
                     <OpenModalButton
                         buttonText="Delete Comment"
-                        modalComponent={<DeleteCommentModal commentId={comment.id} />}
+                        modalComponent={<DeleteCommentModal commentId={comment.id} userId={userId} />}
                     />
                 </>
             }

@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { putCommentThunk } from "../../redux/comments";
+import { getUserIdPostsThunk } from "../../redux/posts";
 
-const EditCommentModal = ({ comment }) => {
+const EditCommentModal = ({ comment, userId }) => {
     let commentId = comment?.id;
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
+    console.log("rrr", userId);
 
     const [body, setBody] = useState(comment?.body);
     const [validationErrors, setValidationErrors] = useState({});
@@ -27,6 +29,7 @@ const EditCommentModal = ({ comment }) => {
             setValidationErrors(res.errors);
         } else {
             setHasSubmitted(false);
+            await dispatch(getUserIdPostsThunk(userId));
             closeModal();
         }
     };
