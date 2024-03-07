@@ -41,7 +41,7 @@ function PageView() {
                 <div >
                     {posts.map(post => (
                         <div className="postContainer" key={post.id} >
-                            <PostComponent post={post} userId={userId} />
+                            <PostComponent post={post} userId={userId} theme={post?.User?.Themes?.find(theme => theme.id === post.themeId)} />
                         </div>
                     ))}
                 </div>

@@ -51,7 +51,7 @@ router.get('/current', requireAuth, async (req, res) => {
                 model: Comment,
             },
             {
-                model: Song
+                model: Theme
             }
         ],
         order: [

@@ -64,6 +64,17 @@ router.get('/:userId/posts', async (req, res) => {
         include: [
             {
                 model: Comment,
+            },
+            {
+                model: User,
+                include: [
+                    {
+                        model: Theme,
+                        where: {
+
+                        }
+                    }
+                ]
             }
         ],
         order: [

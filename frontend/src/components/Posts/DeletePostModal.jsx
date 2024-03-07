@@ -6,7 +6,6 @@ import { deletePostThunk, getCurrentUserPostsThunk } from '../../redux/posts';
 function DeletePostModal({ post }) {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.session.user);
-    //const sessionUser = useSelector((state) => state.session.user);
 
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();

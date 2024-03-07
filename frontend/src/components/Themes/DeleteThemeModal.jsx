@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../context/Modal';
-import { deleteCommentThunk } from '../../redux/comments';
-import { getUserIdPostsThunk } from '../../redux/posts';
+import { deleteThemeThunk, getUserIdThemesThunk } from '../../redux/themes';
 
-function DeleteCommentModal({ commentId, userId }) {
+function DeleteThemeModal({ theme, userId }) {
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.session.user);
 
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
@@ -15,12 +13,12 @@ function DeleteCommentModal({ commentId, userId }) {
         e.preventDefault();
         setErrors({});
 
-        const res = await dispatch(deleteCommentThunk(commentId, user.id))
+        const res = await dispatch(deleteThemeThunk(theme.id, userId))
 
-        if (res.errors) {
-            setErrors(res.errors);
+        if (res.message) {
+            setErrors(res);
         } else {
-            await dispatch(getUserIdPostsThunk(userId));
+            await dispatch(getUserIdThemesThunk(userId));
             closeModal();
         }
     };
@@ -32,35 +30,35 @@ function DeleteCommentModal({ commentId, userId }) {
 
 
     return (
-        <div className='deleteComment modalContainer'>
-            <h1>Confirm Delete Comment</h1>
+        <div className='deleteTheme modalContainer'>
+            <h1>Confirm Delete</h1>
 
             {errors.message && (
-                <p className=''>{errors.message}</p>
+                <p className='errors'>{errors.message}</p>
             )}
 
             <p>
-                Are you sure you want to remove this comment?
+                Are you sure you want to remove this theme?
             </p>
 
             <button
-                className='deleteComment confirmButton'
+                className='deleteTheme confirmButton'
                 type='button'
                 onClick={handleConfirmSubmit}
             >
-                Yes (Delete Comment)
+                Yes (Delete Theme)
             </button>
 
             <button
-                className='deleteComment cancelButton'
+                className='deleteTheme cancelButton'
                 type='button'
                 onClick={handleCancelSubmit}
             >
-                No (Keep Comment)
+                No (Keep Theme)
             </button>
 
         </div>
     )
 }
 
-export default DeleteCommentModal;
+export default DeleteThemeModal;

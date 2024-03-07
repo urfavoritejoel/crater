@@ -5,8 +5,9 @@ import EditPostFormModal from "./EditPostFormModal";
 import DeletePostModal from "./DeletePostModal";
 import CommentComponent from "../Comments/CommentComponent";
 import NewCommentFormModal from "../Comments/NewCommentFormModal";
+import './PostComponent.css'
 
-function PostComponent({ post, userId }) {
+function PostComponent({ post, userId, theme }) {
     const user = useSelector((state) => state.session.user);
     const comments = post?.Comments;
 
@@ -23,7 +24,22 @@ function PostComponent({ post, userId }) {
     return (
         <>
             <h1>{post?.title}</h1>
-            <p>{post?.body}</p>
+            <div
+                className="postBox"
+                style={{
+                    backgroundColor: theme?.bgColor,
+                    color: theme?.textColor,
+                    borderStyle: theme?.borderStyle,
+                    borderColor: theme?.borderColor,
+                    borderWidth: `${theme?.borderSize}px`,
+                    borderRadius: `${theme?.borderRadius}px`,
+                    fontSize: `${theme?.textSize}px`,
+                    fontFamily: `${theme?.font}, serif, sans-serif`,
+                    boxShadow: `${theme?.shadowOffsetX}px ${theme?.shadowOffsetY}px ${theme?.shadowBlur}px ${theme?.shadowColor} ${theme?.shadowInset ? 'inset' : ''}`
+                }}
+            >
+                {post?.body}
+            </div>
             {user?.id !== undefined &&
                 <OpenModalButton
                     buttonText="Add Comment"

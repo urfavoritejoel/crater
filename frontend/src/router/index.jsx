@@ -7,7 +7,7 @@ import Layout from './Layout';
 import Splash from '../components/Splash';
 import NewPostForm from '../components/Posts/NewPostFormModal';
 import NotFound from '../components/NotFound/NotFound';
-import NewThemeForm from '../components/Themes';
+import { EditThemeForm, NewThemeForm } from '../components/Themes';
 
 export const router = createBrowserRouter([
   {
@@ -37,10 +37,14 @@ export const router = createBrowserRouter([
         path: "posts/new",
         element: <NewPostForm />,
       },
-      // {
-      //   path: "themes/new",
-      //   element: <NewThemeForm />,
-      // },
+      {
+        path: "themes/new",
+        element: <NewThemeForm />,
+      },
+      {
+        path: "themes/:themeId",
+        element: <EditThemeForm />,
+      },
       {
         path: "*",
         element: <NotFound />,
