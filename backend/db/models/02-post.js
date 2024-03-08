@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.User, { foreignKey: 'userId' });
-      this.belongsToMany(models.Theme, { through: 'PostTheme', foreignKey: 'postId' });
       this.hasOne(models.Song, { foreignKey: 'postId', onDelete: 'cascade', hooks: true });
       this.hasMany(models.Comment, { foreignKey: 'postId', onDelete: 'cascade', hooks: true });
       this.hasMany(models.Like, { foreignKey: 'postId', onDelete: 'cascade', hooks: true });
@@ -29,10 +28,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     themeId: {
       type: DataTypes.INTEGER,
-      // references: {
-      //   model: 'Themes',
-      //   key: 'id'
-      // },
       allowNull: false
     },
     title: {

@@ -32,8 +32,10 @@ const validateComment = [
     check('body')
         .exists({ checkFalsy: true })
         .trim()
-        .isLength({ min: 4, max: 255 })
-        .withMessage('Comment must be 4 to 255 characters'),
+        .isLength({ min: 1 })
+        .withMessage('Comment must have at least one character')
+        .isLength({ max: 255 })
+        .withMessage('Maximum character limit of 255 reached'),
     handleValidationErrors
 ];
 

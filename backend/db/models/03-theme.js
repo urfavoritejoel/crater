@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.User, { foreignKey: 'userId' });
-      this.belongsToMany(models.Post, { through: 'PostTheme', foreignKey: 'themeId' });
     }
   }
   Theme.init({

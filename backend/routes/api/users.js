@@ -66,15 +66,7 @@ router.get('/:userId/posts', async (req, res) => {
                 model: Comment,
             },
             {
-                model: User,
-                include: [
-                    {
-                        model: Theme,
-                        where: {
-
-                        }
-                    }
-                ]
+                model: User
             }
         ],
         order: [
@@ -82,11 +74,20 @@ router.get('/:userId/posts', async (req, res) => {
             [Comment, 'createdAt', 'DESC']
         ]
     })
+    const themes = await Theme.findAll({
+        where: {
+            userId: userId
+        }
+    })
 
     let Posts = []
     posts.forEach(post => {
         Posts.push(post.toJSON());
-    })
+    });
+
+    Posts.forEach(post => {
+        post["Theme"] = themes.find(theme => theme.id === post.themeId);
+    });
 
     let result = { Posts }
     return res.json(result)

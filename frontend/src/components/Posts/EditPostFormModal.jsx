@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { getUserIdThemesThunk } from "../../redux/themes";
 
-const EditPostFormModal = ({ post }) => {
+const EditPostFormModal = ({ post, propTheme }) => {
     let postId = post.id;
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
@@ -16,8 +16,8 @@ const EditPostFormModal = ({ post }) => {
 
     const [title, setTitle] = useState(post.title);
     const [body, setBody] = useState(post.body);
-    const [theme, setTheme] = useState(themes[0]);
-    const [themeTitle, setThemeTitle] = useState(themes[0].title);
+    const [theme, setTheme] = useState(propTheme);
+    const [themeTitle, setThemeTitle] = useState(propTheme.title);
     const [validationErrors, setValidationErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const { closeModal } = useModal();
@@ -38,6 +38,8 @@ const EditPostFormModal = ({ post }) => {
             pinned,
             commentsDisabled,
         }
+
+        console.log("??", updatedPost);
 
         const res = await dispatch(putPostThunk(updatedPost, postId, user.id));
 

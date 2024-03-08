@@ -10,12 +10,12 @@ function Profile() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.session.user);
-    const themes = useSelector((state) => state.themes.byUser[user.id])
+    const themes = useSelector((state) => state.themes.byUser[user?.id])
     const [showThemes, setShowThemes] = useState(false);
 
     useEffect(() => {
-        dispatch(getUserIdThemesThunk(user.id));
-    }, [dispatch, user.id]);
+        dispatch(getUserIdThemesThunk(user?.id));
+    }, [dispatch, user?.id]);
 
     const toggleShowThemes = () => {
         if (showThemes === true) {
@@ -25,6 +25,7 @@ function Profile() {
         }
     }
 
+    if (!user) return <h1>You must be logged in to view profile!</h1>
     if (!themes) return <h1>Loading...</h1>
 
     return (

@@ -19,9 +19,6 @@ router.get('/', async (req, res) => {
             {
                 model: User
             },
-            // {
-            //     model: Theme
-            // }
         ]
     });
     let Pages = []
@@ -40,12 +37,7 @@ router.get('/current', requireAuth, async (req, res) => {
     const pages = await Page.findAll({
         where: {
             userId: user.id
-        },
-        // include: [
-        //     {
-        //         model: Theme
-        //     }
-        // ]
+        }
     })
 
     let Pages = []

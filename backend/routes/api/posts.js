@@ -1,6 +1,6 @@
 const express = require('express');
 const { requireAuth } = require('../../utils/auth');
-const { User, Post, Like, Song, Comment } = require('../../db/models');
+const { User, Post, Like, Song, Comment, Theme } = require('../../db/models');
 const { validateComment, postTypes, validatePost } = require('../../utils/routeValidators');
 
 const router = express.Router();
@@ -50,20 +50,26 @@ router.get('/current', requireAuth, async (req, res) => {
             {
                 model: Comment,
             },
-            {
-                model: Theme
-            }
         ],
         order: [
             ['createdAt', 'DESC'],
             [Comment, 'createdAt', 'DESC']
         ]
     })
+    const themes = await Theme.findAll({
+        where: {
+            userId: user.id
+        }
+    })
 
     let Posts = []
     posts.forEach(post => {
         Posts.push(post.toJSON());
-    })
+    });
+
+    Posts.forEach(post => {
+        post["Theme"] = themes.find(theme => theme.id === post.themeId);
+    });
 
     let result = { Posts }
     return res.json(result)

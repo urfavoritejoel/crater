@@ -59,7 +59,7 @@ function PostComponent({ post, userId, theme }) {
                 <>
                     <OpenModalButton
                         buttonText="Edit Post"
-                        modalComponent={<EditPostFormModal post={post} userId={userId} />}
+                        modalComponent={<EditPostFormModal post={post} userId={userId} propTheme={theme} />}
                     />
                     <OpenModalButton
                         buttonText="Delete Post"
