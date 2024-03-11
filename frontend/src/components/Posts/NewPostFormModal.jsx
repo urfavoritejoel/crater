@@ -17,15 +17,22 @@ const NewPostFormModal = () => {
 
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
-    const [theme, setTheme] = useState(themes[0]);
-    const [themeTitle, setThemeTitle] = useState(themes[0].title);
+    const [theme, setTheme] = useState('');
+    const [themeTitle, setThemeTitle] = useState('');
     const [validationErrors, setValidationErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
     const { closeModal } = useModal();
 
     useEffect(() => {
         dispatch(getUserIdThemesThunk(user.id));
     }, [dispatch, user.id]);
+
+    if (themes?.length > 0 && isLoaded === false) {
+        setIsLoaded(true);
+        setTheme(themes[0]);
+        setThemeTitle(themes[0].title);
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
