@@ -101,6 +101,7 @@ router.get('/:userId/themes', async (req, res) => {
         where: {
             userId: userId
         },
+        order: [['updatedAt', 'DESC']]
     });
 
     let Themes = [];

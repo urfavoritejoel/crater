@@ -1,11 +1,17 @@
 import { csrfFetch } from './csrf';
 
+const GET_ALL_THEMES = 'themes/getAll';
 const GET_THEMES_BY_USER = 'themes/getUserIdThemes';
 const GET_THEME_BY_ID = 'themes/getById';
 const POST_THEME = 'themes/post';
 const PUT_THEME = 'themes/put';
 const DELETE_THEME = 'themes/delete';
 
+
+const getAllThemes = (themes) => ({
+    type: GET_ALL_THEMES,
+    payload: themes
+});
 
 const getUserIdThemes = (themes, userId) => ({
     type: GET_THEMES_BY_USER,
@@ -44,6 +50,13 @@ const deleteTheme = (themeId, userId) => ({
     }
 });
 
+
+export const getAllThemesThunk = (themes) => async (dispatch) => {
+    const res = await csrfFetch(`/api/themes`);
+    const data = await res.json();
+    dispatch(getAllThemes(data.Themes))
+    return data.Themes;
+};
 
 export const getUserIdThemesThunk = (userId) => async (dispatch) => {
     const res = await csrfFetch(`/api/users/${userId}/themes`);
@@ -121,6 +134,12 @@ const initialState = { allThemes: [], byId: {}, byUser: {} };
 const themesReducer = (state = initialState, action) => {
     let newState = { ...state };
     switch (action.type) {
+        case GET_ALL_THEMES:
+            newState.allThemes = action.payload
+            action.payload.forEach(theme => {
+                newState.byId[theme.id] = theme;
+            });
+            return newState;
         case GET_THEMES_BY_USER:
             newState.byUser[action.payload.userId] = action.payload.themes;
             action.payload.themes.forEach(theme => {

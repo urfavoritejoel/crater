@@ -28,7 +28,7 @@ const validatePost = [
 const validateComment = [
     check('body')
         .custom(value => !value.startsWith(' ') && !value.endsWith(' '))
-        .withMessage('Post message cannot start or end with a space'),
+        .withMessage('Comment cannot start or end with a space'),
     check('body')
         .exists({ checkFalsy: true })
         .trim()

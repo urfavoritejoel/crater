@@ -7,9 +7,10 @@ import CommentComponent from "../Comments/CommentComponent";
 import NewCommentFormModal from "../Comments/NewCommentFormModal";
 import './PostComponent.css'
 
-function PostComponent({ post, userId, theme }) {
+function PostComponent({ post, userId, theme, showButtons }) {
     const user = useSelector((state) => state.session.user);
     const comments = post?.Comments;
+    // console.log("theme", theme);
 
     const [showComments, setShowComments] = useState(false);
 
@@ -38,15 +39,15 @@ function PostComponent({ post, userId, theme }) {
                     boxShadow: `${theme?.shadowOffsetX}px ${theme?.shadowOffsetY}px ${theme?.shadowBlur}px ${theme?.shadowColor} ${theme?.shadowInset ? 'inset' : ''}`
                 }}
             >
-                {post?.body}
+                <p style={{ margin: `${theme?.borderRadius / 3}px` }}>{post?.body}</p>
             </div>
-            {user?.id !== undefined &&
+            {showButtons && user?.id !== undefined &&
                 <OpenModalButton
                     buttonText="Add Comment"
                     modalComponent={<NewCommentFormModal postId={post.id} userId={userId} setShowComments={setShowComments} />}
                 />
             }
-            {comments?.length > 0 &&
+            {showButtons && comments?.length > 0 &&
                 <>
                     {showComments === true ?
                         <button onClick={toggleShowComments}>Hide Comments</button>
@@ -55,7 +56,7 @@ function PostComponent({ post, userId, theme }) {
                     }
                 </>
             }
-            {post?.userId === user?.id &&
+            {showButtons && post?.userId === user?.id && showButtons &&
                 <>
                     <OpenModalButton
                         buttonText="Edit Post"
@@ -67,7 +68,7 @@ function PostComponent({ post, userId, theme }) {
                     />
                 </>
             }
-            {comments?.length > 0 && showComments === true &&
+            {showButtons && comments?.length > 0 && showComments === true &&
                 <div>
                     {post.Comments.map(comment => (
                         <div key={comment.id}><CommentComponent comment={comment} userId={userId} /></div>
