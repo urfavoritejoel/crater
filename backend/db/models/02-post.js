@@ -28,10 +28,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     themeId: {
       type: DataTypes.INTEGER,
-      // references: {
-      //   model: 'Themes',
-      //   key: 'id'
-      // },
       allowNull: false
     },
     title: {

@@ -29,18 +29,59 @@ module.exports = {
         allowNull: false
       },
       bgColor: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       bgImg: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+      },
+      shadowOffsetX: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      shadowOffsetY: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      shadowBlur: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      shadowColor: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      shadowInset: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+      },
+      textColor: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      textSize: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       textFont: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
-      borderstyle: {
+      borderStyle: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 'solid'
+      },
+      borderColor: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      borderSize: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      borderRadius: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

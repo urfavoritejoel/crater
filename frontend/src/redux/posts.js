@@ -141,11 +141,13 @@ const postsReducer = (state = initialState, action) => {
             action.payload.posts.forEach(post => {
                 newState.byId[post.id] = post;
             });
+            return newState;
         case GET_POSTS_BY_USER:
             newState.byUser[action.payload.userId] = action.payload.posts;
             action.payload.posts.forEach(post => {
                 newState.byId[post.id] = post;
             });
+            return newState;
         case CREATE_POST:
             newState.allPosts.push(action.payload);
             newState.byId[action.payload.id] = action.payload;

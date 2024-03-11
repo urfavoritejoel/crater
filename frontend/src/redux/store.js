@@ -9,12 +9,14 @@ import sessionReducer from "./session";
 import postsReducer from "./posts";
 import commentsReducer from "./comments";
 import usersReducer from "./users";
+import themesReducer from "./themes";
 
 const rootReducer = combineReducers({
     session: sessionReducer,
     users: usersReducer,
     posts: postsReducer,
     comments: commentsReducer,
+    themes: themesReducer,
 });
 
 let enhancer;

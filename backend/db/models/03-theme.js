@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.User, { foreignKey: 'userId' });
-      // this.hasMany(models.Post, { foreignKey: 'themeId' });
     }
   }
   Theme.init({
@@ -28,25 +27,66 @@ module.exports = (sequelize, DataTypes) => {
         model: 'Users',
         key: 'id'
       },
-      allowNull: false
+      allowNull: false,
     },
     title: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     bgColor: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     bgImg: {
       type: DataTypes.STRING,
     },
-    textFont: {
-      type: DataTypes.STRING,
-    },
-    borderstyle: {
+    shadowOffsetX: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 'solid'
+    },
+    shadowOffsetY: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    shadowBlur: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    shadowColor: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    shadowInset: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
+    textColor: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    textSize: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    textFont: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    borderStyle: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    borderColor: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    borderSize: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    borderRadius: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   }, {
     sequelize,

@@ -11,14 +11,14 @@ const validatePost = [
         .withMessage('Title cannot start or end with a space'),
     check('title')
         .isLength({ min: 3, max: 50 })
-        .withMessage('Title must be between 3 and 50 characters'),
+        .withMessage('Title must be 3 to 50 characters'),
     check('body')
         .exists()
         .notEmpty()
         .withMessage('Post content is required'),
     check('body')
         .isLength({ min: 4, max: 1000 })
-        .withMessage('Post message must be between 4 and 1000 characters'),
+        .withMessage('Post message must be 4 to 1000 characters'),
     check('body')
         .custom(value => !value.startsWith(' ') && !value.endsWith(' '))
         .withMessage('Post message cannot start or end with a space'),
@@ -28,14 +28,32 @@ const validatePost = [
 const validateComment = [
     check('body')
         .custom(value => !value.startsWith(' ') && !value.endsWith(' '))
-        .withMessage('Post message cannot start or end with a space'),
+        .withMessage('Comment cannot start or end with a space'),
     check('body')
         .exists({ checkFalsy: true })
         .trim()
-        .isLength({ min: 4, max: 255 })
-        .withMessage('Comment must be 4 to 255 characters'),
+        .isLength({ min: 1 })
+        .withMessage('Comment must have at least one character')
+        .isLength({ max: 255 })
+        .withMessage('Maximum character limit of 255 reached'),
     handleValidationErrors
 ];
+
+const validateTheme = [
+    check('title')
+        .custom(value => !value.startsWith(' ') && !value.endsWith(' '))
+        .withMessage('Title cannot start or end with a space'),
+    check('title')
+        .exists({ checkFalsy: true })
+        .trim()
+        .isLength({ min: 3, max: 50 })
+        .withMessage('Title must be 3 to 50 characters'),
+    handleValidationErrors
+];
+
+const validateThemeUnused = [
+
+]
 
 const postTypes = ['update', 'song'];
 
@@ -82,4 +100,11 @@ const validateSignup = [
     handleValidationErrors
 ];
 
-module.exports = { validatePost, validateComment, postTypes, validateLogin, validateSignup }
+module.exports = {
+    validatePost,
+    validateComment,
+    postTypes,
+    validateLogin,
+    validateSignup,
+    validateTheme
+}

@@ -4,16 +4,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllPostsThunk } from '../../redux/posts';
 import { PostComponent } from '../Posts';
 import { NavLink } from 'react-router-dom';
+import { getAllThemesThunk } from '../../redux/themes';
 
 const Splash = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.session.user);
+  const user = useSelector(state => state.session.user);
   const posts = useSelector(state => state.posts.allPosts);
+  const themes = useSelector(state => state.themes.allThemes);
   let otherPosts = [];
   if (user) otherPosts = posts.filter(post => post.userId !== user.id);
+  console.log(otherPosts);
 
   useEffect(() => {
     dispatch(getAllPostsThunk());
+    dispatch(getAllThemesThunk());
   }, [dispatch]);
 
   //image url to send to aws
@@ -80,8 +84,12 @@ const Splash = () => {
           <h2>Discover other Creators:</h2>
           {otherPosts.map(post => (
             <div className={'postContainer'} key={post.id}>
-              <h2>{post?.title}</h2>
-              <p>{post?.body}</p>
+              <PostComponent
+                post={post}
+                userId={post?.userId}
+                theme={themes?.find(theme => theme.id === post.themeId)}
+                showButtons={false}
+              />
               <NavLink to={`/users/${post?.User?.id}/page`}>
                 {post?.User?.username}
               </NavLink>
@@ -93,8 +101,12 @@ const Splash = () => {
           <h2>Discover Creators:</h2>
           {posts.map(post => (
             <div className={'postContainer'} key={post.id}>
-              <h2>{post?.title}</h2>
-              <p>{post?.body}</p>
+              <PostComponent
+                post={post}
+                userId={post?.userId}
+                theme={themes?.find(theme => theme.id === post.themeId)}
+                showButtons={false}
+              />
               <NavLink to={`/users/${post?.User?.id}/page`}>
                 {post?.User?.username}
               </NavLink>
