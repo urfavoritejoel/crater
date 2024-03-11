@@ -145,7 +145,7 @@ router.delete('/:themeId', requireAuth, async (req, res) => {
     if (posts.length > 0) {
         res.status(400);
         return res.json({
-            message: "Cannot delete theme that is in use."
+            error: "Cannot delete theme that is in use."
         })
     }
 

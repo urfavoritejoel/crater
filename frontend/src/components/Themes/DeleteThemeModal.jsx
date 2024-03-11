@@ -11,11 +11,10 @@ function DeleteThemeModal({ theme, userId }) {
 
     const handleConfirmSubmit = async (e) => {
         e.preventDefault();
-        setErrors({});
 
         const res = await dispatch(deleteThemeThunk(theme.id, userId))
 
-        if (res.message) {
+        if (res.error) {
             setErrors(res);
         } else {
             await dispatch(getUserIdThemesThunk(userId));
@@ -33,8 +32,8 @@ function DeleteThemeModal({ theme, userId }) {
         <div className='deleteTheme modalContainer'>
             <h1>Confirm Delete</h1>
 
-            {errors.message && (
-                <p className='errors'>{errors.message}</p>
+            {errors.error && (
+                <p className='errors'>{errors.error}</p>
             )}
 
             <p>

@@ -124,7 +124,6 @@ export const deleteThemeThunk = (themeId, userId) => async (dispatch) => {
         throw res;
     } catch (e) {
         const data = await e.json();
-        console.log("res?", data);
         return data;
     }
 };

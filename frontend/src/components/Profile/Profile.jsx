@@ -11,7 +11,7 @@ function Profile() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.session.user);
     const themes = useSelector((state) => state.themes.byUser[user?.id])
-    const [showThemes, setShowThemes] = useState(false);
+    const [showThemes, setShowThemes] = useState(true);
 
     useEffect(() => {
         dispatch(getUserIdThemesThunk(user?.id));
