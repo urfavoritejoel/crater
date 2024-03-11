@@ -5,10 +5,12 @@ import EditPostFormModal from "./EditPostFormModal";
 import DeletePostModal from "./DeletePostModal";
 import CommentComponent from "../Comments/CommentComponent";
 import NewCommentFormModal from "../Comments/NewCommentFormModal";
+import './PostComponent.css'
 
-function PostComponent({ post, userId }) {
+function PostComponent({ post, userId, theme, showButtons }) {
     const user = useSelector((state) => state.session.user);
     const comments = post?.Comments;
+    // console.log("theme", theme);
 
     const [showComments, setShowComments] = useState(false);
 
@@ -23,14 +25,29 @@ function PostComponent({ post, userId }) {
     return (
         <>
             <h1>{post?.title}</h1>
-            <p>{post?.body}</p>
-            {user?.id !== undefined &&
+            <div
+                className="postBox"
+                style={{
+                    backgroundColor: theme?.bgColor,
+                    color: theme?.textColor,
+                    borderStyle: theme?.borderStyle,
+                    borderColor: theme?.borderColor,
+                    borderWidth: `${theme?.borderSize}px`,
+                    borderRadius: `${theme?.borderRadius}px`,
+                    fontSize: `${theme?.textSize}px`,
+                    fontFamily: `${theme?.font}, serif, sans-serif`,
+                    boxShadow: `${theme?.shadowOffsetX}px ${theme?.shadowOffsetY}px ${theme?.shadowBlur}px ${theme?.shadowColor} ${theme?.shadowInset ? 'inset' : ''}`
+                }}
+            >
+                <p style={{ margin: `${theme?.borderRadius / 3}px` }}>{post?.body}</p>
+            </div>
+            {showButtons && user?.id !== undefined &&
                 <OpenModalButton
                     buttonText="Add Comment"
                     modalComponent={<NewCommentFormModal postId={post.id} userId={userId} setShowComments={setShowComments} />}
                 />
             }
-            {comments?.length > 0 &&
+            {showButtons && comments?.length > 0 &&
                 <>
                     {showComments === true ?
                         <button onClick={toggleShowComments}>Hide Comments</button>
@@ -39,11 +56,11 @@ function PostComponent({ post, userId }) {
                     }
                 </>
             }
-            {post?.userId === user?.id &&
+            {showButtons && post?.userId === user?.id && showButtons &&
                 <>
                     <OpenModalButton
                         buttonText="Edit Post"
-                        modalComponent={<EditPostFormModal post={post} userId={userId} />}
+                        modalComponent={<EditPostFormModal post={post} userId={userId} propTheme={theme} />}
                     />
                     <OpenModalButton
                         buttonText="Delete Post"
@@ -51,7 +68,7 @@ function PostComponent({ post, userId }) {
                     />
                 </>
             }
-            {comments?.length > 0 && showComments === true &&
+            {showButtons && comments?.length > 0 && showComments === true &&
                 <div>
                     {post.Comments.map(comment => (
                         <div key={comment.id}><CommentComponent comment={comment} userId={userId} /></div>

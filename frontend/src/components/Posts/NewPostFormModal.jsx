@@ -1,24 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createPostThunk, getCurrentUserPostsThunk } from "../../redux/posts";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useModal } from "../../context/Modal";
+import { getUserIdThemesThunk } from "../../redux/themes";
 
 const NewPostFormModal = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
+    const themes = useSelector((state) => state.themes.byUser[user.id])
     // Temporary consts until later features implemented
-    const themeId = 1;
     const postType = "update";
     const pinned = false;
     const commentsDisabled = false;
 
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
+    const [theme, setTheme] = useState(themes[0]);
+    const [themeTitle, setThemeTitle] = useState(themes[0].title);
     const [validationErrors, setValidationErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const { closeModal } = useModal();
+
+    useEffect(() => {
+        dispatch(getUserIdThemesThunk(user.id));
+    }, [dispatch, user.id]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,7 +33,7 @@ const NewPostFormModal = () => {
 
         const newPost = {
             userId: user.id,
-            themeId,
+            themeId: theme.id,
             postType,
             title,
             body,
@@ -43,6 +50,11 @@ const NewPostFormModal = () => {
             closeModal();
         }
     };
+
+    const cancelSubmit = (e) => {
+        e.preventDefault();
+        closeModal();
+    }
 
     return (
         <div className="pageContainer">
@@ -69,7 +81,19 @@ const NewPostFormModal = () => {
                 </label>
                 {hasSubmitted && validationErrors.body &&
                     <p>{validationErrors.body}</p>}
-                <button>Submit</button>
+                <select
+                    name="theme"
+                    value={themeTitle}
+                    onChange={(e) => {
+                        setTheme(themes.find(theme => theme.title === e.target.value));
+                        setThemeTitle(e.target.value);
+                    }}>
+                    {themes?.map(theme => (
+                        <option value={theme.title} key={theme.id}>{theme.title}</option>
+                    ))}
+                </select>
+                <button onClick={handleSubmit} type="submit">Submit</button>
+                <button onClick={cancelSubmit}>Cancel</button>
             </form>
         </div>
     )
