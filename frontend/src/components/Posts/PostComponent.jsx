@@ -6,11 +6,11 @@ import DeletePostModal from "./DeletePostModal";
 import CommentComponent from "../Comments/CommentComponent";
 import NewCommentFormModal from "../Comments/NewCommentFormModal";
 import './PostComponent.css'
+import LikeComponent from "../Likes/LikeComponent";
 
 function PostComponent({ post, userId, theme, showButtons }) {
     const user = useSelector((state) => state.session.user);
     const comments = post?.Comments;
-    // console.log("theme", theme);
 
     const [showComments, setShowComments] = useState(false);
 
@@ -56,7 +56,7 @@ function PostComponent({ post, userId, theme, showButtons }) {
                     }
                 </>
             }
-            {showButtons && post?.userId === user?.id && showButtons &&
+            {showButtons && post?.userId === user?.id &&
                 <>
                     <OpenModalButton
                         buttonText="Edit Post"
@@ -68,10 +68,11 @@ function PostComponent({ post, userId, theme, showButtons }) {
                     />
                 </>
             }
+            <LikeComponent user={user} element={post} post={post} elementType={'post'} />
             {showButtons && comments?.length > 0 && showComments === true &&
                 <div>
                     {post.Comments.map(comment => (
-                        <div key={comment.id}><CommentComponent comment={comment} userId={userId} /></div>
+                        <div key={comment.id}><CommentComponent comment={comment} userId={userId} post={post} /></div>
                     ))}
                 </div>
             }

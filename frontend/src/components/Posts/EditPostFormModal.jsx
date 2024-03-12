@@ -39,8 +39,6 @@ const EditPostFormModal = ({ post, propTheme }) => {
             commentsDisabled,
         }
 
-        console.log("??", updatedPost);
-
         const res = await dispatch(putPostThunk(updatedPost, postId, user.id));
 
         if (res.errors) {
@@ -81,17 +79,19 @@ const EditPostFormModal = ({ post, propTheme }) => {
                 </label>
                 {hasSubmitted && validationErrors.body &&
                     <p>{validationErrors.body}</p>}
-                <select
-                    name="theme"
-                    value={themeTitle}
-                    onChange={(e) => {
-                        setTheme(themes.find(theme => theme.title === e.target.value));
-                        setThemeTitle(e.target.value);
-                    }}>
-                    {themes?.map(theme => (
-                        <option value={theme.title} key={theme.id}>{theme.title}</option>
-                    ))}
-                </select>
+                <label>Theme:
+                    <select
+                        name="theme"
+                        value={themeTitle}
+                        onChange={(e) => {
+                            setTheme(themes.find(theme => theme.title === e.target.value));
+                            setThemeTitle(e.target.value);
+                        }}>
+                        {themes?.map(theme => (
+                            <option value={theme.title} key={theme.id}>{theme.title}</option>
+                        ))}
+                    </select>
+                </label>
                 <button onClick={handleSubmit} type="submit">Submit</button>
                 <button onClick={cancelSubmit}>Cancel</button>
             </form>

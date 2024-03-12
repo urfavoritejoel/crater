@@ -20,6 +20,9 @@ router.get('/', async (req, res) => {
             {
                 model: User
             },
+            {
+                model: Like
+            },
         ]
     });
     let Comments = []
@@ -38,7 +41,12 @@ router.get('/current', requireAuth, async (req, res) => {
     const comments = await Comment.findAll({
         where: {
             userId: user.id
-        }
+        },
+        include: [
+            {
+                model: Like
+            },
+        ]
     })
 
     let Comments = []
@@ -101,7 +109,7 @@ router.post('/:commentId/likes', requireAuth, async (req, res) => {
         })
     };
     if (likeCheck.length > 0) {
-        res.status(415);
+        res.status(414);
         return res.json({
             message: "You already have a like for this comment"
         })

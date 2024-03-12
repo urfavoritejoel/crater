@@ -64,10 +64,17 @@ router.get('/:userId/posts', async (req, res) => {
         include: [
             {
                 model: Comment,
+                include: [{
+                    model: Like
+                }
+                ]
             },
             {
                 model: User
-            }
+            },
+            {
+                model: Like
+            },
         ],
         order: [
             ['createdAt', 'DESC'],
@@ -130,6 +137,11 @@ router.get('/:userId/comments', async (req, res) => {
         where: {
             userId: userId
         },
+        include: [
+            {
+                model: Like
+            },
+        ]
     });
     return res.json({ Comments });
 });

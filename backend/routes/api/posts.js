@@ -22,7 +22,10 @@ router.get('/', async (req, res) => {
             },
             {
                 model: Song
-            }
+            },
+            {
+                model: Like
+            },
         ],
         order: [
             ['createdAt', 'DESC'],
@@ -38,6 +41,37 @@ router.get('/', async (req, res) => {
     return res.json(result)
 });
 
+//Get Post by Id
+//Auth required: false
+router.get('/:postId', async (req, res) => {
+    const { postId } = req.params;
+    const post = await Post.findOne({
+        where: {
+            id: postId
+        },
+        include: [
+            {
+                model: User
+            },
+            {
+                model: Comment
+            },
+            {
+                model: Song
+            },
+            {
+                model: Like
+            },
+        ],
+        order: [
+            ['createdAt', 'DESC'],
+            [Comment, 'createdAt', 'DESC']
+        ]
+    });
+
+    return res.json(post)
+});
+
 //Get All Posts by Current User
 //Auth required: true
 router.get('/current', requireAuth, async (req, res) => {
@@ -49,6 +83,9 @@ router.get('/current', requireAuth, async (req, res) => {
         include: [
             {
                 model: Comment,
+            },
+            {
+                model: Like
             },
         ],
         order: [
@@ -79,7 +116,11 @@ router.get('/current', requireAuth, async (req, res) => {
 //Auth required: false
 router.get('/:postId/comments', async (req, res) => {
     const { postId } = req.params;
-    const post = await Post.findByPk(postId);
+    const post = await Post.findAll({
+        where: {
+            id: postId
+        },
+    });
 
     if (!post) {
         res.status(404);
@@ -92,9 +133,14 @@ router.get('/:postId/comments', async (req, res) => {
         where: {
             postId: postId
         },
-        include: [{
-            model: User,
-        }],
+        include: [
+            {
+                model: User,
+            },
+            {
+                model: Like
+            },
+        ],
     });
     return res.json({ Comments });
 });
