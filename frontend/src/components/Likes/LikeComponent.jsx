@@ -19,7 +19,7 @@ function LikeComponent({ user, element, elementType, post }) {
         }
 
         await dispatch(getAllPostsThunk());
-        await dispatch(getUserIdPostsThunk(post?.User.id))
+        await dispatch(getUserIdPostsThunk(post?.User.id));
     }
 
     return (

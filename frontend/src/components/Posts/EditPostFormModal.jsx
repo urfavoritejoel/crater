@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { putPostThunk } from "../../redux/posts";
+import { getUserIdPostsThunk, putPostThunk } from "../../redux/posts";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { getUserIdThemesThunk } from "../../redux/themes";
@@ -44,6 +44,7 @@ const EditPostFormModal = ({ post, propTheme }) => {
         if (res.errors) {
             setValidationErrors(res.errors);
         } else {
+            await dispatch(getUserIdPostsThunk(user.id));
             setHasSubmitted(false);
             closeModal();
         }

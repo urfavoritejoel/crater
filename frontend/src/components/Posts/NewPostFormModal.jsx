@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createPostThunk, getCurrentUserPostsThunk } from "../../redux/posts";
+import { createPostThunk, getCurrentUserPostsThunk, getUserIdPostsThunk } from "../../redux/posts";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useModal } from "../../context/Modal";
@@ -54,6 +54,7 @@ const NewPostFormModal = () => {
             setValidationErrors(res.errors);
         } else {
             setHasSubmitted(false);
+            await dispatch(getUserIdPostsThunk(user.id));
             closeModal();
         }
     };

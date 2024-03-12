@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../context/Modal';
-import { deletePostThunk, getCurrentUserPostsThunk } from '../../redux/posts';
+import { deletePostThunk, getUserIdPostsThunk } from '../../redux/posts';
 
 function DeletePostModal({ post }) {
     const dispatch = useDispatch();
@@ -10,18 +10,18 @@ function DeletePostModal({ post }) {
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
 
-    const handleConfirmSubmit = (e) => {
+    const handleConfirmSubmit = async (e) => {
         e.preventDefault();
         setErrors({});
 
-        return dispatch(deletePostThunk(post.id, user.id))
-            .then(closeModal)
-            .catch(async (res) => {
-                //const data = await res.json();
-                if (res && res.errors) {
-                    setErrors(res.errors);
-                }
-            });
+        const res = await dispatch(deletePostThunk(post.id, user.id))
+
+        if (res.errors) {
+            setErrors(res.errors);
+        } else {
+            await dispatch(getUserIdPostsThunk(user.id));
+            closeModal();
+        }
     };
 
     const handleCancelSubmit = (e) => {
