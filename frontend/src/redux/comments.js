@@ -94,19 +94,22 @@ export const deleteCommentThunk = (commentId, userId) => async (dispatch) => {
 const initialState = { allComments: [], byId: {} };
 
 const commentsReducer = (state = initialState, action) => {
-    let newState = { ...state };
+    let newState = {};
     switch (action.type) {
         case GET_ALL_COMMENTS:
+            newState = { ...state };
             newState.allComments = action.payload;
             action.payload.forEach(comment => {
                 newState.byId[comment.id] = comment;
             });
             return newState;
         case POST_COMMENT:
+            newState = { ...state };
             newState.allComments = [...newState.allComments, action.payload];
             newState.byId[action.payload.id] = action.payload;
             return newState;
         case PUT_COMMENT:
+            newState = { ...state };
             const index = newState.allComments.findIndex(
                 (comment) => comment.id === action.payload.id
             );
@@ -114,6 +117,7 @@ const commentsReducer = (state = initialState, action) => {
             newState.byId[action.payload.id] = action.payload;
             return newState;
         case DELETE_COMMENT:
+            newState = { ...state };
             const newComments = newState.allComments.filter(
                 (comment) => comment.id !== action.payload
             );
