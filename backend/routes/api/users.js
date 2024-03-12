@@ -64,6 +64,10 @@ router.get('/:userId/posts', async (req, res) => {
         include: [
             {
                 model: Comment,
+                include: [{
+                    model: Like
+                }
+                ]
             },
             {
                 model: User

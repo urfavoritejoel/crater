@@ -13,7 +13,6 @@ const Splash = () => {
   const themes = useSelector(state => state.themes.allThemes);
   let otherPosts = [];
   if (user) otherPosts = posts.filter(post => post.userId !== user.id);
-  console.log(otherPosts);
 
   useEffect(() => {
     dispatch(getAllPostsThunk());

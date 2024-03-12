@@ -1,6 +1,7 @@
 import { csrfFetch } from './csrf';
 
 const GET_ALL_POSTS = 'posts/getAll';
+const GET_POST = 'posts/getOne';
 const GET_CURRENT_USER_POSTS = 'posts/getCurrentUserPosts';
 const GET_POSTS_BY_USER = 'posts/getUserIdPosts';
 const CREATE_POST = 'posts/create';
@@ -11,6 +12,11 @@ const DELETE_POST = 'posts/delete';
 const getAllPosts = (posts) => ({
     type: GET_ALL_POSTS,
     payload: posts
+});
+
+const getPost = (post) => ({
+    type: GET_POST,
+    payload: post
 });
 
 const getCurrentUserPosts = (posts, userId) => ({
@@ -50,6 +56,13 @@ export const getAllPostsThunk = () => async (dispatch) => {
     const data = await res.json();
     dispatch(getAllPosts(data.Posts));
     return data.Posts;
+};
+
+export const getPostThunk = (postId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/posts/${postId}`);
+    const data = await res.json();
+    dispatch(getPost(data));
+    return data;
 };
 
 export const getCurrentUserPostsThunk = (userId) => async (dispatch) => {
@@ -135,6 +148,10 @@ const postsReducer = (state = initialState, action) => {
             action.payload.forEach(post => {
                 newState.byId[post.id] = post;
             });
+            return newState;
+        case GET_POST:
+            newState.allPosts.push(action.payload);
+            newState.byId[action.payload.id] = action.payload;
             return newState;
         case GET_CURRENT_USER_POSTS:
             newState.byUser[action.payload.userId] = action.payload.posts;

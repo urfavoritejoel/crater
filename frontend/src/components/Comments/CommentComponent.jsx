@@ -2,8 +2,9 @@ import { useSelector } from "react-redux";
 import OpenModalButton from "../OpenModalButton/OpenModalButtton";
 import DeleteCommentModal from "./DeleteCommentModal";
 import EditCommentModal from "./EditCommentModal";
+import LikeComponent from "../Likes/LikeComponent";
 
-function CommentComponent({ comment, userId }) {
+function CommentComponent({ comment, userId, post }) {
     const user = useSelector((state) => state.session.user);
     return (
         <>
@@ -21,6 +22,7 @@ function CommentComponent({ comment, userId }) {
                     />
                 </>
             }
+            <LikeComponent user={user} element={comment} post={post} elementType={'comment'} />
         </>
     )
 }

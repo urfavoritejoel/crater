@@ -41,6 +41,37 @@ router.get('/', async (req, res) => {
     return res.json(result)
 });
 
+//Get Post by Id
+//Auth required: false
+router.get('/:postId', async (req, res) => {
+    const { postId } = req.params;
+    const post = await Post.findOne({
+        where: {
+            id: postId
+        },
+        include: [
+            {
+                model: User
+            },
+            {
+                model: Comment
+            },
+            {
+                model: Song
+            },
+            {
+                model: Like
+            },
+        ],
+        order: [
+            ['createdAt', 'DESC'],
+            [Comment, 'createdAt', 'DESC']
+        ]
+    });
+
+    return res.json(post)
+});
+
 //Get All Posts by Current User
 //Auth required: true
 router.get('/current', requireAuth, async (req, res) => {

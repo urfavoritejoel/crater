@@ -1,5 +1,4 @@
 import { csrfFetch } from './csrf';
-import { getUserIdPostsThunk } from './posts';
 
 const GET_ALL_COMMENTS = 'comments/getAll';
 const POST_COMMENT = 'comments/post';
@@ -49,7 +48,6 @@ export const postCommentThunk = (comment, postId, userId) => async (dispatch) =>
         }
         throw res;
     } catch (e) {
-        console.log(e);
         const data = await e.json();
         return data;
     }
@@ -105,20 +103,19 @@ const commentsReducer = (state = initialState, action) => {
             });
             return newState;
         case POST_COMMENT:
-            // const newAllComments = [...newState.allComments]
             newState.allComments = [...newState.allComments, action.payload];
             newState.byId[action.payload.id] = action.payload;
             return newState;
         case PUT_COMMENT:
             const index = newState.allComments.findIndex(
-                (post) => post.id === action.payload.id
+                (comment) => comment.id === action.payload.id
             );
             newState.allComments[index] = action.payload;
             newState.byId[action.payload.id] = action.payload;
             return newState;
         case DELETE_COMMENT:
             const newComments = newState.allComments.filter(
-                (post) => post.id !== action.payload
+                (comment) => comment.id !== action.payload
             );
             newState.allComments = newComments;
             delete newState.byId[action.payload];
