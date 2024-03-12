@@ -109,7 +109,7 @@ router.post('/:commentId/likes', requireAuth, async (req, res) => {
         })
     };
     if (likeCheck.length > 0) {
-        res.status(415);
+        res.status(414);
         return res.json({
             message: "You already have a like for this comment"
         })

@@ -140,8 +140,6 @@ router.delete('/:themeId', requireAuth, async (req, res) => {
         }
     })
 
-    console.log(posts.length);
-
     if (posts.length > 0) {
         res.status(400);
         return res.json({
