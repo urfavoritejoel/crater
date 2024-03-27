@@ -141,41 +141,35 @@ export const deletePostThunk = (postId, userId) => async (dispatch) => {
 const initialState = { allPosts: [], byId: {}, byUser: {} };
 
 const postsReducer = (state = initialState, action) => {
-    let newState = {};
+    const newState = { allPosts: [...state.allPosts], byId: { ...state.byId }, byUser: { ...state.byUser } };
     switch (action.type) {
         case GET_ALL_POSTS:
-            newState = { ...state };
             newState.allPosts = action.payload;
             action.payload.forEach(post => {
                 newState.byId[post.id] = post;
             });
             return newState;
         case GET_POST:
-            newState = { ...state };
             newState.allPosts.push(action.payload);
             newState.byId[action.payload.id] = action.payload;
             return newState;
         case GET_CURRENT_USER_POSTS:
-            newState = { ...state };
             newState.byUser[action.payload.userId] = action.payload.posts;
             action.payload.posts.forEach(post => {
                 newState.byId[post.id] = post;
             });
             return newState;
         case GET_POSTS_BY_USER:
-            newState = { ...state };
             newState.byUser[action.payload.userId] = action.payload.posts;
             action.payload.posts.forEach(post => {
                 newState.byId[post.id] = post;
             });
             return newState;
         case CREATE_POST:
-            newState = { ...state };
             newState.allPosts.push(action.payload);
             newState.byId[action.payload.id] = action.payload;
             return newState;
         case PUT_POST:
-            newState = { ...state };
             const allPostIndex = newState.allPosts.findIndex(
                 (post) => post.id === action.payload.post.id
             );
@@ -187,7 +181,6 @@ const postsReducer = (state = initialState, action) => {
             newState.byUser[action.payload.userId][userIdIndex] = action.payload.post;
             return newState;
         case DELETE_POST:
-            newState = { ...state };
             newState.allPosts = newState.allPosts.filter(
                 (post) => post.id !== action.payload
             );

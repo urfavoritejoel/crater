@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
-import { createPostThunk, getCurrentUserPostsThunk, getUserIdPostsThunk } from "../../redux/posts";
+import { memo, useEffect, useState } from "react";
+import { getUserIdPostsThunk, putPostThunk } from "../../../redux/posts";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useModal } from "../../context/Modal";
-import { getUserIdThemesThunk } from "../../redux/themes";
+import { useModal } from "../../../context/Modal";
+import { getUserIdThemesThunk } from "../../../redux/themes";
 
-const NewPostFormModal = () => {
-    const navigate = useNavigate();
+const EditPostFormModal = ({ post, propTheme }) => {
+    let postId = post.id;
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
     const themes = useSelector((state) => state.themes.byUser[user.id])
@@ -15,31 +14,23 @@ const NewPostFormModal = () => {
     const pinned = false;
     const commentsDisabled = false;
 
-    const [title, setTitle] = useState('');
-    const [body, setBody] = useState('');
-    const [theme, setTheme] = useState('');
-    const [themeTitle, setThemeTitle] = useState('');
+    const [title, setTitle] = useState(post.title);
+    const [body, setBody] = useState(post.body);
+    const [theme, setTheme] = useState(propTheme);
+    const [themeTitle, setThemeTitle] = useState(propTheme.title);
     const [validationErrors, setValidationErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
-    const [isLoaded, setIsLoaded] = useState(false);
     const { closeModal } = useModal();
 
     useEffect(() => {
         dispatch(getUserIdThemesThunk(user.id));
     }, [dispatch, user.id]);
 
-    if (themes?.length > 0 && isLoaded === false) {
-        setIsLoaded(true);
-        setTheme(themes[0]);
-        setThemeTitle(themes[0].title);
-    }
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setHasSubmitted(true);
 
-        const newPost = {
-            userId: user.id,
+        const updatedPost = {
             themeId: theme.id,
             postType,
             title,
@@ -48,13 +39,13 @@ const NewPostFormModal = () => {
             commentsDisabled,
         }
 
-        const res = await dispatch(createPostThunk(newPost, user.id));
+        const res = await dispatch(putPostThunk(updatedPost, postId, user.id));
 
         if (res.errors) {
             setValidationErrors(res.errors);
         } else {
-            setHasSubmitted(false);
             await dispatch(getUserIdPostsThunk(user.id));
+            setHasSubmitted(false);
             closeModal();
         }
     };
@@ -67,7 +58,7 @@ const NewPostFormModal = () => {
     return (
         <div className="pageContainer">
             <div className="header">
-                <h1>New Post</h1>
+                <h1>Edit Post</h1>
             </div>
             <form onSubmit={handleSubmit} className="formContainer">
                 <label>Title:
@@ -110,4 +101,4 @@ const NewPostFormModal = () => {
 
 };
 
-export default NewPostFormModal;
+export default memo(EditPostFormModal);

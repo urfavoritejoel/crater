@@ -1,1 +1,4 @@
-export { default as LikeComponent } from './LikeComponent';
+import { memo } from 'react'
+import LikeComponent from './LikeComponent';
+
+export default memo(LikeComponent);
