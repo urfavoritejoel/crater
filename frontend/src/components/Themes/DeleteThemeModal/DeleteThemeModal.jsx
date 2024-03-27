@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useModal } from '../../context/Modal';
-import { deleteThemeThunk, getUserIdThemesThunk } from '../../redux/themes';
+import { useModal } from '../../../context/Modal';
+import { deleteThemeThunk, getUserIdThemesThunk } from '../../../redux/themes';
 
 function DeleteThemeModal({ theme, userId }) {
     const dispatch = useDispatch();

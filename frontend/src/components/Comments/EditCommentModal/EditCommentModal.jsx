@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useModal } from "../../context/Modal";
-import { putCommentThunk } from "../../redux/comments";
-import { getUserIdPostsThunk } from "../../redux/posts";
+import { useModal } from "../../../context/Modal";
+import { putCommentThunk } from "../../../redux/comments";
+import { getUserIdPostsThunk } from "../../../redux/posts";
 
 const EditCommentModal = ({ comment, userId }) => {
     let commentId = comment?.id;

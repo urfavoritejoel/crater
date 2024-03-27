@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { updateUserThunk } from '../../redux/session';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllPostsThunk } from '../../redux/posts';
-import { PostComponent } from '../Posts';
+import PostComponent from '../Posts/PostComponent';
 import { NavLink } from 'react-router-dom';
 import { getAllThemesThunk } from '../../redux/themes';
 

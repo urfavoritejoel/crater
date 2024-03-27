@@ -1,3 +1,4 @@
-import OpenModalButton from './OpenModalButton';
+import { memo } from 'react'
+import OpenModalButton from './OpenModalButtton';
 
-export default OpenModalButton;
+export default memo(OpenModalButton);
