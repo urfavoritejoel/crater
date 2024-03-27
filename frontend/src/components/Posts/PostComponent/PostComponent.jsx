@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import OpenModalButton from "../OpenModalButton/OpenModalButtton";
-import EditPostFormModal from "./EditPostFormModal";
-import DeletePostModal from "./DeletePostModal";
-import CommentComponent from "../Comments/CommentComponent";
-import NewCommentFormModal from "../Comments/NewCommentFormModal";
+import OpenModalButton from "../../OpenModalButton/OpenModalButtton";
+import EditPostFormModal from "../EditPostFormModal";
+import DeletePostModal from "../DeletePostModal";
+import CommentComponent from "../../Comments/CommentComponent/CommentComponent";
+import NewCommentFormModal from "../../Comments/NewCommentFormModal/NewCommentFormModal";
 import './PostComponent.css'
-import LikeComponent from "../Likes/LikeComponent";
+import LikeComponent from "../../Likes/LikeComponent";
 
 function PostComponent({ post, userId, theme, showButtons }) {
     const user = useSelector((state) => state.session.user);

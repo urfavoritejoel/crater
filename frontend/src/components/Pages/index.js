@@ -1,3 +1,4 @@
-import PageView from "./PageView";
+import { memo } from 'react'
+import PageView from './PageView';
 
-export default [PageView]
+export default memo(PageView);

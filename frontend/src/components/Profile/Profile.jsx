@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { getUserIdThemesThunk } from "../../redux/themes";
 import "./Profile.css";
-import { DeleteThemeModal, PreviewTheme } from "../Themes";
+import DeleteThemeModal from "../Themes/DeleteThemeModal";
+import PreviewTheme from "../Themes/PreviewTheme";
 import OpenModalButton from "../OpenModalButton/OpenModalButtton";
 
 function Profile() {

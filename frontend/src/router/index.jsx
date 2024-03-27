@@ -1,13 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom';
-import LoginFormPage from '../components/LoginFormPage';
+import LoginFormPage from '../components/LoginFormPage/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
-import Profile from '../components/Profile/Profile';
+import Profile from '../components/Profile';
 import PageView from '../components/Pages/PageView';
 import Layout from './Layout';
 import Splash from '../components/Splash';
-import NewPostForm from '../components/Posts/NewPostFormModal';
-import NotFound from '../components/NotFound/NotFound';
-import { EditThemeForm, NewThemeForm } from '../components/Themes';
+import NotFound from '../components/NotFound';
+import EditThemeForm from '../components/Themes/EditThemeForm';
+import NewThemeForm from '../components/Themes/NewThemeForm';
 
 export const router = createBrowserRouter([
   {
@@ -32,10 +32,6 @@ export const router = createBrowserRouter([
       {
         path: "users/:userId/page",
         element: <PageView />,
-      },
-      {
-        path: "posts/new",
-        element: <NewPostForm />,
       },
       {
         path: "themes/new",

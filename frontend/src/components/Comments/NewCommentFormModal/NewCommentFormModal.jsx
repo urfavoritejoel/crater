@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useModal } from "../../context/Modal";
-import { postCommentThunk } from "../../redux/comments";
-import { getUserIdPostsThunk } from "../../redux/posts";
+import { useModal } from "../../../context/Modal";
+import { postCommentThunk } from "../../../redux/comments";
+import { getUserIdPostsThunk } from "../../../redux/posts";
 
 const NewCommentFormModal = ({ postId, setShowComments, userId }) => {
     const dispatch = useDispatch();

@@ -1,3 +1,4 @@
-import Splash from "./Splash";
+import { memo } from 'react'
+import Splash from './Splash';
 
-export default Splash
+export default memo(Splash);
